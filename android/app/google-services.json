@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "663489939418",
+    "project_id": "avaliafisiotcc",
+    "storage_bucket": "avaliafisiotcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663489939418:android:63b41fc131cc64805262e3",
+        "android_client_info": {
+          "package_name": "com.example.projeto_tcc_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663489939418-5iao0sah25md9oar0h64qqopiri059tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqi8zaJ8z0JHpoSnLoya42O8Hu4uXgV2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663489939418-5iao0sah25md9oar0h64qqopiri059tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
