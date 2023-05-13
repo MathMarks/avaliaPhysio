@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:projeto_tcc_2/avaliacoes/avalNaoSalvas.dart';
 import 'package:projeto_tcc_2/relatorios/graphs/graphMRC.dart';
+import 'package:projeto_tcc_2/relatorios/pdf_manip.dart';
+import 'dart:io';
 
 class RelatorioMRC extends StatefulWidget {
   final dynamic cpf;
@@ -27,8 +29,26 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("MRC's Realizados"),
-        ),
+            title: Text("MRC's Realizados"),
+            centerTitle: true,
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(backgroundColor: Colors.green),
+                onPressed: () async {
+                  final avalRelSnapshot = await FirebaseFirestore.instance
+                      .collection('avaliacao')
+                      .where('cpfPaciente', isEqualTo: widget.cpf)
+                      .get();
+
+                  final data =
+                      await PdfManip.createDataList(avalRelSnapshot.docs);
+
+                  final file = await PdfManip.relatorioPdfMrc(data);
+                  await PdfManip.openFile(file);
+                },
+                child: const Text('Gerar PDF'),
+              ),
+            ]),
         body: Column(
           children: [
             /* 

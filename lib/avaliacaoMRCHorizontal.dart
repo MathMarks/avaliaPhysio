@@ -5,6 +5,7 @@ import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
 import 'package:projeto_tcc_2/buscaPacientes.dart';
 import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
+import 'package:projeto_tcc_2/avaliacaoRapida.dart';
 
 class AvaliacaoMRCHorizontal extends StatefulWidget {
   @override
@@ -142,7 +143,8 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                                      builder: (context) => avaliacaoRapida(
+                                          resultadoAval: valorFinal)));
                             }
                           },
                           child: Text("Salvar Avaliação")),

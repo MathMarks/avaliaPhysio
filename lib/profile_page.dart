@@ -1,13 +1,16 @@
+import 'dart:math';
+import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:projeto_tcc_2/buscaPacientes.dart';
 import 'package:projeto_tcc_2/avaliacaoMRCHorizontal.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/firebaseManipulation/userInfo.dart';
 import 'package:projeto_tcc_2/buscaPacientesFisio.dart';
-import 'package:projeto_tcc_2/profile_paciente.dart';
 import 'package:projeto_tcc_2/cadastroPacientes.dart';
 import 'package:projeto_tcc_2/login_screen.dart';
+import 'package:localstore/localstore.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser!;
+  final _localDb = Localstore.instance;
 
   Future getUserData() async {
     await FirebaseFirestore.instance
@@ -33,6 +37,7 @@ class _ProfileState extends State<Profile> {
         .doc(user.uid)
         .get();
     print(userIn);
+    //print(dado);
     GetUserName(documentID: user.uid.toString());
     super.initState();
   }
@@ -378,6 +383,14 @@ class _ProfileState extends State<Profile> {
                 )))
           ],
         ),
+        floatingActionButton: _mostraAFB(),
+        // floatingActionButton: FloatingActionButton.extended(
+        //   onPressed: () {},
+        //   icon: const Icon(Icons.play_arrow),
+        //   label: const Text('Avaliações não salvas'),
+        //   backgroundColor: Colors.indigoAccent,
+        // ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
       );
     } else {
       Navigator.push(
@@ -385,5 +398,76 @@ class _ProfileState extends State<Profile> {
     }
 
     return Scaffold();
+  }
+
+  Widget _mostraAFB() {
+    //if (_localDb.toString().isNotEmpty) {
+    //colocar para verificar se tem algo armazenado temporáriamente
+    //return Container();
+    //} else {
+    return FloatingActionButton.extended(
+      onPressed: () {
+        showAlertDialog(context);
+      },
+      icon: const Icon(Icons.history),
+      label: const Text('Avaliações não salvas'),
+      backgroundColor: Colors.indigoAccent,
+    );
+    // }
+  }
+
+  showAlertDialog(BuildContext context) async {
+    // set up the button
+    Widget fecharButton = TextButton(
+      child: Text("Fechar"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    final dado = await _localDb.collection('avaliacoes').get();
+    final Map<String, dynamic>? values = dado;
+    print(values);
+    print(values?.values.elementAt(1)['nome']);
+    // set up the AlertDialog
+    SimpleDialog alert =
+        SimpleDialog(title: Text("Avaliações Rápidas"), children: [
+      SizedBox(
+        height: 200,
+        width: 100,
+        child: ListView.separated(
+            itemBuilder: (content, index) {
+              String nome = values.values.elementAt(index)['nome'];
+              String cpf = values.values.elementAt(index)['cpf'].toString();
+              int resultado = values.values.elementAt(index)['resultado'];
+
+              return GestureDetector(
+                  child: ListTile(
+                      title: Text('Paciente: $nome'),
+                      subtitle: Text('CPF: $cpf')),
+                  onTap: () {
+                    var aval = Mrc(
+                        resultado, FirebaseAuth.instance.currentUser!.uid, "");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BuscaPacientes(aval: aval)));
+                  });
+            },
+            separatorBuilder: (BuildContext context, index) {
+              return Divider();
+            },
+            itemCount: values!.length),
+      )
+    ] //Aqui vamos colocar a lista de coisas do armazenamento local
+
+            );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

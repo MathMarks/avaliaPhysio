@@ -4,10 +4,12 @@ import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
+import 'package:localstore/localstore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(Myapp());
 }
 
