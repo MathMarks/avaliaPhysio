@@ -1,8 +1,6 @@
-import 'dart:math';
 import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:projeto_tcc_2/buscaPacientes.dart';
 import 'package:projeto_tcc_2/avaliacaoMRCHorizontal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -430,59 +428,111 @@ class _ProfileState extends State<Profile> {
     //print(values);
     //print(values?.values.elementAt(1)['nome']);
     // set up the AlertDialog
-    SimpleDialog alert =
-        SimpleDialog(title: Text("Avaliações Rápidas"), children: [
-      SizedBox(
-        height: 200,
-        width: 150,
-        child: ListView.separated(
-            //scrollDirection: Axis.horizontal,
-            itemBuilder: (content, index) {
-              //print(values.values);
-              String nome = values.values.elementAt(index)['nome'];
-              String cpf = values.values.elementAt(index)['cpf'].toString();
-              int resultado = values.values.elementAt(index)['resultado'];
-              var data = values.values.elementAt(index)['data'];
-              var id = values.values.elementAt(index)['id'];
+    SimpleDialog alert = SimpleDialog(
+        title: Center(child: Text("Avaliações Rápidas")),
+        children: [
+          SizedBox(
+            height: 350,
+            width: 150,
+            child: ListView.separated(
+                //scrollDirection: Axis.horizontal,
+                itemBuilder: (content, index) {
+                  //print(values.values);
+                  String nome = values.values.elementAt(index)['nome'];
+                  String cpf = values.values.elementAt(index)['cpf'].toString();
+                  int resultado = values.values.elementAt(index)['resultado'];
+                  var data = values.values.elementAt(index)['data'];
+                  var id = values.values.elementAt(index)['id'];
 
-              return Column(
-                children: [
-                  GestureDetector(
-                      child: ListTile(
-                        title: Text('Paciente: $nome em $data'),
-                        subtitle: Text('CPF: $cpf, id: $id'),
+                  return Column(
+                    children: [
+                      GestureDetector(
+                          child: ListTile(
+                            title: Text('Paciente: $nome'),
+                            subtitle: Text('CPF: $cpf,  $data'),
+                          ),
+                          onTap: () {
+                            var aval = Mrc(resultado,
+                                FirebaseAuth.instance.currentUser!.uid, "");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BuscaPacientes(aval: aval)));
+                          }),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.check),
+                                tooltip: 'Excluir',
+                                color: Colors.green,
+                                onPressed: () {
+                                  var aval = Mrc(
+                                      resultado,
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      "");
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BuscaPacientes(aval: aval)));
+                                },
+                              ),
+                              Text(
+                                "Salvar registro",
+                                style: TextStyle(
+                                    color: Colors.greenAccent,
+                                    decorationThickness: 2),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                tooltip: 'Salvar',
+                                color: Colors.red,
+                                onPressed: () {
+                                  setState(() {
+                                    _localDb
+                                        .collection('avaliacoes')
+                                        .doc(id)
+                                        .delete();
+                                    Navigator.of(context).pop();
+                                    _showMyDialog();
+                                  });
+                                },
+                              ),
+                              Text(
+                                "Excluir registro",
+                                style: TextStyle(
+                                    color: Colors.redAccent,
+                                    decorationThickness: 2),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        var aval = Mrc(resultado,
-                            FirebaseAuth.instance.currentUser!.uid, "");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    BuscaPacientes(aval: aval)));
-                      }),
-                  IconButton(
-                    icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Excluir',
-                    onPressed: () {
-                      setState(() {
-                        _localDb.collection('avaliacoes').doc(id).delete();
-                        Navigator.of(context).pop();
-                        _showMyDialog();
-                      });
-                    },
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (BuildContext context, index) {
-              return Divider();
-            },
-            itemCount: values!.length),
-      )
-    ] //Aqui vamos colocar a lista de coisas do armazenamento local
+                      SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, index) {
+                  return Divider(
+                    height: 20,
+                    thickness: 3,
+                  );
+                },
+                itemCount: values!.length),
+          )
+        ] //Aqui vamos colocar a lista de coisas do armazenamento local
 
-            );
+        );
 
     // show the dialog
     showDialog(

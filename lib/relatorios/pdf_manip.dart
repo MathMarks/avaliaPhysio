@@ -69,7 +69,7 @@ class PdfManip {
       {required String name, required pw.Document pdf}) async {
     final bytes = await pdf.save();
     final dir = await getApplicationSupportDirectory();
-    final file = File('${dir!.path}/$name');
+    final file = File('${dir.path}/$name');
     print(file);
     print('${dir.path}/$name');
     await file.writeAsBytes(bytes);
