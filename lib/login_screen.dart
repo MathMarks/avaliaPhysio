@@ -5,6 +5,7 @@ import 'package:projeto_tcc_2/constants.dart';
 import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/cadastroFisio.dart';
+import 'package:intl/intl.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -188,7 +189,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () {
-          print("Avaliação Rápida");
           Navigator.push(
               context,
               MaterialPageRoute(

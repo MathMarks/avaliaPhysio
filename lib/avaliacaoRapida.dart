@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/constants.dart';
 import 'package:flutter/services.dart';
@@ -180,13 +181,23 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                                       .id;
 
                                   // save the item
+                                  print("Avaliação Rápida");
+                                  var dateRaw =
+                                      DateFormat('yyyy-MM-dd hh:mm:ss')
+                                          .parse(DateTime.now().toString());
+                                  var date = DateFormat('dd/MM/yy HH:mm:ss')
+                                      .format(dateRaw)
+                                      .toString();
+                                  //print(date);
                                   _localDb
                                       .collection('avaliacoes')
                                       .doc(id)
                                       .set({
                                     'nome': nomeController.text,
                                     'cpf': cpfController.text,
-                                    'resultado': widget.resultadoAval
+                                    'resultado': widget.resultadoAval,
+                                    'data': date,
+                                    'id': id,
                                   });
 
                                   // final dado = await _localDb

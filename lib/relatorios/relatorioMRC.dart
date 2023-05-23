@@ -5,11 +5,12 @@ import 'package:projeto_tcc_2/avaliacoes/avalNaoSalvas.dart';
 import 'package:projeto_tcc_2/relatorios/graphs/graphMRC.dart';
 import 'package:projeto_tcc_2/relatorios/pdf_manip.dart';
 import 'dart:io';
+import 'package:projeto_tcc_2/relatorios/graphs/graphMRC2.dart' as w;
 
 class RelatorioMRC extends StatefulWidget {
   final dynamic cpf;
   const RelatorioMRC({Key? key, required this.cpf}) : super(key: key);
-
+  //CPF do paciente
   @override
   State<RelatorioMRC> createState() => _RelatorioMRCState();
 }
@@ -40,13 +41,43 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
                       .where('cpfPaciente', isEqualTo: widget.cpf)
                       .get();
 
+                  final pacienteSnapshot = await FirebaseFirestore.instance
+                      .collection('pacientes')
+                      .where('cpf', isEqualTo: widget.cpf)
+                      .get();
+
+                  // w.buildGraphData(avalRelSnapshot.docs);
+
                   final data =
                       await PdfManip.createDataList(avalRelSnapshot.docs);
 
-                  final file = await PdfManip.relatorioPdfMrc(data);
+                  final pacienteInfo = pacienteSnapshot.docs;
+
+                  print(pacienteInfo[0].data());
+
+                  final file = await PdfManip.relatorioPdfMrc(
+                      data, pacienteInfo[0].data());
                   await PdfManip.openFile(file);
                 },
                 child: const Text('Gerar PDF'),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () async {
+                  final avalRelSnapshot = await FirebaseFirestore.instance
+                      .collection('avaliacao')
+                      .where('cpfPaciente', isEqualTo: widget.cpf)
+                      .get();
+
+                  var teste = w.buildGraphData(avalRelSnapshot.docs);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              w.graphmrcT(dataAval: teste))));
+                },
+                child: const Text('Gráfico'),
               ),
             ]),
         body: Column(
@@ -58,7 +89,7 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
                 stream: avaliacoes,
                 builder: (context, snapshots) {
                   return (snapshots.connectionState == ConnectionState.waiting)
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(

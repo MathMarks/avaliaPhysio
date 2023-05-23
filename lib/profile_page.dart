@@ -36,8 +36,9 @@ class _ProfileState extends State<Profile> {
         .collection("fisioterapeuta")
         .doc(user.uid)
         .get();
-    print(userIn);
+    //print(userIn);
     //print(dado);
+    //_localDb.collection('avaliacoes').delete();
     GetUserName(documentID: user.uid.toString());
     super.initState();
   }
@@ -426,32 +427,53 @@ class _ProfileState extends State<Profile> {
     );
     final dado = await _localDb.collection('avaliacoes').get();
     final Map<String, dynamic>? values = dado;
-    print(values);
-    print(values?.values.elementAt(1)['nome']);
+    //print(values);
+    //print(values?.values.elementAt(1)['nome']);
     // set up the AlertDialog
     SimpleDialog alert =
         SimpleDialog(title: Text("Avaliações Rápidas"), children: [
       SizedBox(
         height: 200,
-        width: 100,
+        width: 150,
         child: ListView.separated(
+            //scrollDirection: Axis.horizontal,
             itemBuilder: (content, index) {
+              //print(values.values);
               String nome = values.values.elementAt(index)['nome'];
               String cpf = values.values.elementAt(index)['cpf'].toString();
               int resultado = values.values.elementAt(index)['resultado'];
+              var data = values.values.elementAt(index)['data'];
+              var id = values.values.elementAt(index)['id'];
 
-              return GestureDetector(
-                  child: ListTile(
-                      title: Text('Paciente: $nome'),
-                      subtitle: Text('CPF: $cpf')),
-                  onTap: () {
-                    var aval = Mrc(
-                        resultado, FirebaseAuth.instance.currentUser!.uid, "");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BuscaPacientes(aval: aval)));
-                  });
+              return Column(
+                children: [
+                  GestureDetector(
+                      child: ListTile(
+                        title: Text('Paciente: $nome em $data'),
+                        subtitle: Text('CPF: $cpf, id: $id'),
+                      ),
+                      onTap: () {
+                        var aval = Mrc(resultado,
+                            FirebaseAuth.instance.currentUser!.uid, "");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    BuscaPacientes(aval: aval)));
+                      }),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    tooltip: 'Excluir',
+                    onPressed: () {
+                      setState(() {
+                        _localDb.collection('avaliacoes').doc(id).delete();
+                        Navigator.of(context).pop();
+                        _showMyDialog();
+                      });
+                    },
+                  ),
+                ],
+              );
             },
             separatorBuilder: (BuildContext context, index) {
               return Divider();
@@ -467,6 +489,33 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (BuildContext context) {
         return alert;
+      },
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Importante!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A Avaliação Rápida foi excluída com êxito.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Prosseguir'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
   }
