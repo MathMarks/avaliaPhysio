@@ -12,34 +12,58 @@ class InputRowHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       margin: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 15, bottom: 15),
-            child: Text(
-              parteDoCopro,
-              style: TextStyle(
-                  fontSize: 20, letterSpacing: 2, fontWeight: FontWeight.w800),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 15, bottom: 15),
+              child: Text(
+                parteDoCopro,
+                style: TextStyle(
+                    fontSize: 20,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w800),
+              ),
             ),
-          ),
-          Container(
-            margin:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 15),
-                      child: Column(
+            Container(
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 15),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Direita",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            GroupButton(
+                              options: GroupButtonOptions(
+                                  spacing: 0,
+                                  buttonWidth: 40,
+                                  unselectedBorderColor: Colors.blue[900]),
+                              isRadio: true,
+                              onSelected: (value, index, isSelected) =>
+                                  {values[0] = value},
+                              buttons: [1, 2, 3, 4, 5],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
                         children: [
                           Text(
-                            "Direita",
+                            "Esquerda",
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           GroupButton(
@@ -49,36 +73,18 @@ class InputRowHorizontal extends StatelessWidget {
                                 unselectedBorderColor: Colors.blue[900]),
                             isRadio: true,
                             onSelected: (value, index, isSelected) =>
-                                {values[0] = value},
+                                {values[1] = value},
                             buttons: [1, 2, 3, 4, 5],
                           ),
                         ],
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          "Esquerda",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        GroupButton(
-                          options: GroupButtonOptions(
-                              spacing: 0,
-                              buttonWidth: 40,
-                              unselectedBorderColor: Colors.blue[900]),
-                          isRadio: true,
-                          onSelected: (value, index, isSelected) =>
-                              {values[1] = value},
-                          buttons: [1, 2, 3, 4, 5],
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

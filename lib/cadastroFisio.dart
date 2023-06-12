@@ -4,6 +4,7 @@ import 'package:projeto_tcc_2/constants.dart';
 import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:projeto_tcc_2/profile_page.dart';
 
 class CadastroFisio extends StatefulWidget {
   @override
@@ -120,8 +121,9 @@ class _CadastroFisioState extends State<CadastroFisio> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: passwordController,
+            validator: _validarSenha,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -341,10 +343,16 @@ class _CadastroFisioState extends State<CadastroFisio> {
           ),
         ),
         onPressed: () {
-          _criarAuth();
-          print('Apertou Cadastrar');
-          /* Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Profile())); */
+          if (_validarCampos() == null) {
+            _criarAuth();
+            print('Apertou Cadastrar, cadastro autorizado.');
+          } else {
+            _erroDialog(context,
+                "Verificar os dados fornecidos, existem inconformidades.");
+            print('Apertou Cadastrar, cadastro não autorizado.');
+          }
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => Profile()));
         },
         child: Text(
           'Cadastrar',
@@ -454,7 +462,7 @@ class _CadastroFisioState extends State<CadastroFisio> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => const Center(child: CircularProgressIndicator()));
     try {
       var userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -468,11 +476,14 @@ class _CadastroFisioState extends State<CadastroFisio> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('Senha inserida muito fraca! Tente outra mais forte. $e');
+        _erroDialog(context, "Senha muito fraca.");
       } else if (e.code == 'email-already-in-use') {
         print(
             'Já existe uma conta com esse endereço de email, gostaria de realizar o login? $e');
+        _erroDialog(context, "E-mail já utilizado, por favor escolha outro.");
       } else if (e.code == 'invalid-email') {
         print("Por favor, insira um endereço de email válido");
+        _erroDialog(context, "E-mail inválido.");
       }
     } catch (e) {
       print(e);
@@ -493,6 +504,14 @@ class _CadastroFisioState extends State<CadastroFisio> {
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  String? _validarCampos() {
+    if (_formKey.currentState!.validate()) {
+      return null;
+    } else {
+      return 'Preencha todos os campos';
+    }
   }
 
   String? _validarNome(String? nome) {
@@ -525,5 +544,38 @@ class _CadastroFisioState extends State<CadastroFisio> {
     } else {
       return null;
     }
+  }
+
+  String? _validarSenha(String? senha) {
+    RegExp regex = RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{5,}$');
+    if (senha!.isEmpty) {
+      return 'Favor, inserir uma senha.';
+    } else {
+      if (!regex.hasMatch(senha)) {
+        return 'Entre uma senha válida: Ao menos cinco letras e dois números.';
+      } else {
+        return null;
+      }
+    }
+  }
+
+  void _erroDialog(BuildContext context, String erro) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Dados inválidos"),
+          content: Text(erro),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
