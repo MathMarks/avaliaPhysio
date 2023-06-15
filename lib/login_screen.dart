@@ -6,6 +6,7 @@ import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/cadastroFisio.dart';
 import 'package:intl/intl.dart';
+import 'package:projeto_tcc_2/menu_avaliacoes.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -177,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildAvaliacaoRapidaBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
         style: TextButton.styleFrom(
@@ -189,13 +190,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AvaliacaoMRCHorizontal()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MenuAvaliacoes()));
         },
-        child: Text(
-          'Avaliação Rápida - MRC',
+        child: const Text(
+          'Avaliação Rápida',
           style: TextStyle(
             color: Color.fromARGB(255, 255, 255, 255),
             letterSpacing: 1.5,

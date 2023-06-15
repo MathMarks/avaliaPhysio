@@ -9,6 +9,7 @@ import 'package:projeto_tcc_2/buscaPacientesFisio.dart';
 import 'package:projeto_tcc_2/cadastroPacientes.dart';
 import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:localstore/localstore.dart';
+import 'package:projeto_tcc_2/menu_avaliacoes.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -275,7 +276,7 @@ class _ProfileState extends State<Profile> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            AvaliacaoMRCHorizontal()));
+                                                            const MenuAvaliacoes()));
                                               },
                                               child: Column(
                                                 crossAxisAlignment:

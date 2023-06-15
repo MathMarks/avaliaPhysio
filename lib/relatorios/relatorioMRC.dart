@@ -5,6 +5,7 @@ import 'package:projeto_tcc_2/avaliacoes/avalNaoSalvas.dart';
 import 'package:projeto_tcc_2/relatorios/graphs/graphMRC.dart';
 import 'package:projeto_tcc_2/relatorios/pdf_manip.dart';
 import 'dart:io';
+import 'package:to_csv/to_csv.dart' as exportCSV;
 import 'package:projeto_tcc_2/relatorios/graphs/graphMRC2.dart' as w;
 
 class RelatorioMRC extends StatefulWidget {
@@ -33,52 +34,97 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
             title: Text("MRC's Realizados"),
             centerTitle: true,
             actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.green),
-                onPressed: () async {
-                  final avalRelSnapshot = await FirebaseFirestore.instance
-                      .collection('avaliacao')
-                      .where('cpfPaciente', isEqualTo: widget.cpf)
-                      .get();
+              PopupMenuButton(itemBuilder: (BuildContext bc) {
+                return [
+                  PopupMenuItem(
+                      value: '/rPDF',
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                            minimumSize: const Size.fromHeight(30),
+                            backgroundColor: Colors.blueAccent,
+                            foregroundColor: Colors.white),
+                        onPressed: () async {
+                          final avalRelSnapshot = await FirebaseFirestore
+                              .instance
+                              .collection('avaliacao')
+                              .where('cpfPaciente', isEqualTo: widget.cpf)
+                              .get();
 
-                  final pacienteSnapshot = await FirebaseFirestore.instance
-                      .collection('pacientes')
-                      .where('cpf', isEqualTo: widget.cpf)
-                      .get();
+                          var teste = w.buildGraphData(avalRelSnapshot.docs);
 
-                  // w.buildGraphData(avalRelSnapshot.docs);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      w.graphmrcT(dataAval: teste))));
+                        },
+                        child: const Text('Gráfico'),
+                      )),
+                  PopupMenuItem(
+                    value: '/rCSV',
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          minimumSize: const Size.fromHeight(30),
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white),
+                      onPressed: () async {
+                        final avalRelSnapshot = await FirebaseFirestore.instance
+                            .collection('avaliacao')
+                            .where('cpfPaciente', isEqualTo: widget.cpf)
+                            .get();
 
-                  final data =
-                      await PdfManip.createDataList(avalRelSnapshot.docs);
+                        var dadosCSV = w.buildCsvData(avalRelSnapshot.docs);
 
-                  final pacienteInfo = pacienteSnapshot.docs;
+                        List<String> header = [];
 
-                  print(pacienteInfo[0].data());
+                        header.add('No.');
+                        header.add('Resultado');
+                        header.add('Data');
+                        // header.add('Mobile');
+                        // header.add('ID Number');
 
-                  final file = await PdfManip.relatorioPdfMrc(
-                      data, pacienteInfo[0].data());
-                  await PdfManip.openFile(file);
-                },
-                child: const Text('Gerar PDF'),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () async {
-                  final avalRelSnapshot = await FirebaseFirestore.instance
-                      .collection('avaliacao')
-                      .where('cpfPaciente', isEqualTo: widget.cpf)
-                      .get();
+                        exportCSV.myCSV(header, dadosCSV);
+                      },
+                      child: const Text('Gerar CSV'),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: '/rGRA',
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          minimumSize: const Size.fromHeight(30),
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white),
+                      onPressed: () async {
+                        final avalRelSnapshot = await FirebaseFirestore.instance
+                            .collection('avaliacao')
+                            .where('cpfPaciente', isEqualTo: widget.cpf)
+                            .get();
 
-                  var teste = w.buildGraphData(avalRelSnapshot.docs);
+                        final pacienteSnapshot = await FirebaseFirestore
+                            .instance
+                            .collection('pacientes')
+                            .where('cpf', isEqualTo: widget.cpf)
+                            .get();
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              w.graphmrcT(dataAval: teste))));
-                },
-                child: const Text('Gráfico'),
-              ),
+                        // w.buildGraphData(avalRelSnapshot.docs);
+
+                        final data =
+                            await PdfManip.createDataList(avalRelSnapshot.docs);
+
+                        final pacienteInfo = pacienteSnapshot.docs;
+
+                        //print(pacienteInfo[0].data());
+
+                        final file = await PdfManip.relatorioPdfMrc(
+                            data, pacienteInfo[0].data());
+                        await PdfManip.openFile(file);
+                      },
+                      child: const Text('Gerar PDF'),
+                    ),
+                  ),
+                ];
+              })
             ]),
         body: Column(
           children: [

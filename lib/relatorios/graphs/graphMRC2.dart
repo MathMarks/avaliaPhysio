@@ -109,3 +109,31 @@ List<_AvalData> buildGraphData(
 
   return listaDeAval;
 }
+
+List<List<String>> buildCsvData(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docsAval) {
+  List<String> row = [];
+  var date;
+  var test;
+  int num = 0;
+  List<List<String>> resultado = [];
+
+  docsAval.forEach((element) {
+    row.add(num.toString());
+    row.add(element['resultado'].toString());
+    date = DateFormat('dd/MM/yy HH:mm:ss')
+        .format(element['data'].toDate())
+        .toString();
+    row.add(date);
+    print(row);
+    resultado.add(row);
+
+    test = _AvalData(date, element['resultado']);
+
+    print(resultado);
+    row = [];
+    num++;
+  });
+
+  return resultado;
+}
