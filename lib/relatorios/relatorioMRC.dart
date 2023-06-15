@@ -143,9 +143,10 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
                           itemBuilder: (context, index) {
                             var data = snapshots.data!.docs[index].data()
                                 as Map<String, dynamic>;
+                            var avalID = snapshots.data!.docs[index].id;
 
                             if (data.isNotEmpty) {
-                              return _listaAvaliacoes(data);
+                              return _listaAvaliacoes(data, avalID);
                             }
                             return Container();
                           });
@@ -156,34 +157,89 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
         ));
   }
 
-  Widget _listaAvaliacoes(avaliacoes) {
+  Future<void> _popupDelAval(dynamic avaliacoes, avalID) async {
     var input = DateFormat('yyyy-MM-dd hh:mm:ss')
         .parse(avaliacoes['data'].toDate().toString());
     var output = DateFormat('dd/MM/yy HH:mm:ss').format(input).toString();
-    return Column(
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Excluir Avaliação'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Deseja excluir a seguinte avaliação? '),
+                Text('Data : ${output.toString()}'),
+                Text('Resultado: ${avaliacoes['resultado'].toString()}')
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Confirmar'),
+              onPressed: () {
+                //Lógica para exclusão da avaliação
+                FirebaseFirestore.instance
+                    .collection('avaliacao')
+                    .doc(avalID)
+                    .delete();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Não Excluir'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _listaAvaliacoes(avaliacoes, avalID) {
+    var input = DateFormat('yyyy-MM-dd hh:mm:ss')
+        .parse(avaliacoes['data'].toDate().toString());
+    var output = DateFormat('dd/MM/yy HH:mm:ss').format(input).toString();
+    return Row(
       children: [
-        GestureDetector(
-          onTap: () {},
-          child: ListTile(
-              title: Text(
-                output,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                'Resultado: ' + avaliacoes['resultado'].toString(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              )),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {},
+            child: ListTile(
+                minLeadingWidth: 40,
+                title: Text(
+                  output,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'Resultado: ' + avaliacoes['resultado'].toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                )),
+          ),
         ),
+        IconButton.filled(
+            onPressed: () {
+              //criar popup para possibilitar excluir a avaliação e futuramente modificar a mesma.
+              _popupDelAval(avaliacoes, avalID);
+              print(avaliacoes);
+              print(avalID);
+            },
+            icon: const Icon(Icons.delete)),
       ],
     );
   }
