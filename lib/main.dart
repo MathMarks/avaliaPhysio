@@ -23,24 +23,24 @@ class Myapp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(
+                return const Center(
                     child: Text(
                         'Ops, algo de errado aconteceu com o Login, por favor, tente novamente.'));
               } else if (snapshot.hasData) {
-                return Profile();
+                return const Profile();
               } else {
                 return LoginScreen();
               }
             },
           ),
         ),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale('pt', 'BR'),
+        supportedLocales: const [
+          Locale('pt', 'BR'),
         ],
       );
 }

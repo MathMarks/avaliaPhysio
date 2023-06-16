@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:projeto_tcc_2/profile_paciente.dart';
+import 'dart:developer' as developer;
 
 class BuscaPacientesFisio extends StatefulWidget {
   const BuscaPacientesFisio({super.key});
@@ -16,12 +17,12 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
 
   @override
   void initState() {
-    print(user.uid);
+    developer.log(user.uid);
     var userIn = FirebaseFirestore.instance
         .collection("pacientes")
         .where('fisioID', isEqualTo: user.uid.toString())
         .snapshots();
-    print(userIn);
+    //developer.log(userIn);
     super.initState();
   }
 
@@ -61,7 +62,7 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
                       if (nome.isEmpty) {
                         return GestureDetector(
                           onTap: () {
-                            print("Clicou no: " + data.toString());
+                            developer.log("Clicou no: " + data.toString());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/profile_paciente.dart';
-import 'package:projeto_tcc_2/avaliacoes/avalNaoSalvas.dart';
+import 'dart:developer' as developer;
 import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
+import 'package:projeto_tcc_2/cadastroPacientes.dart';
 
 class BuscaPacientes extends StatefulWidget {
   final Mrc aval;
@@ -18,18 +19,38 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Card(
-          child: TextField(
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Nome do Paciente...'),
-            onChanged: (val) {
-              setState(() {
-                nome = val;
-              });
-            },
+          title: Row(
+            children: [
+              Card(
+                child: SizedBox(
+                  width: 250,
+                  child: TextField(
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'Nome do Paciente...'),
+                    onChanged: (val) {
+                      setState(() {
+                        nome = val;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CadastroPaciente(avaliacaoExterna: widget.aval)));
+                },
+                icon: const Icon(Icons.add),
+                style:
+                    IconButton.styleFrom(padding: EdgeInsets.only(right: 10.0)),
+              )
+            ],
           ),
-        )),
+        ),
         body: StreamBuilder<QuerySnapshot>(
           stream:
               FirebaseFirestore.instance.collection('pacientes').snapshots(),
@@ -91,32 +112,32 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
   }
 
   Future<void> _confirmacaoVinculo(data) async {
-    print(data);
+    developer.log(data.toString());
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmação de Vínculo'),
+          title: const Text('Confirmação de Vínculo'),
           content: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Text(
                     'Deseja vincular a avaliação realizada a: ${data['nome']}?'),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                     'Será redirecionado para a página do paciente em seguida.'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Confirmar'),
+              child: const Text('Confirmar'),
               onPressed: () {
                 widget.aval.cpfPaciente = data['cpf'];
                 CollectionReference avaliacao =
                     FirebaseFirestore.instance.collection('avaliacao');
-                Future<void> _salvaAvaliacao() {
+                Future<void> salvaAvaliacao() {
                   return avaliacao
                       .add({
                         'fisioID': widget.aval.fisioID,
@@ -126,13 +147,14 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
                         'resultado': widget.aval.resultado,
                         'tipo': widget.aval.tipo
                       })
-                      .then((value) => print('Avaliação salva com sucesso!'))
-                      .catchError((error) => print(
+                      .then((value) =>
+                          developer.log('Avaliação salva com sucesso!'))
+                      .catchError((error) => developer.log(
                           "Ops, ocorreu algum erro ao cadastrar a Avaliação: ${error.toString()} "));
                 }
 
-                _salvaAvaliacao();
-                print('Confirmado!');
+                salvaAvaliacao();
+                developer.log('Confirmado!');
                 /* Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -146,19 +168,7 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
               },
             ),
             TextButton(
-              child: Text('Vincular depois'),
-              onPressed: () {
-                print('Adicionou esta avaliação ao vetor de avaliações.');
-
-                avaliacoes.add(widget.aval);
-                avaliacoes.forEach((element) {
-                  print(element);
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

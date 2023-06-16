@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/cadastroFisio.dart';
 import 'package:intl/intl.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
+import 'dart:developer' as developer;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () {
           logar();
-          print('Apertou login');
+          //print('Apertou login');
           /* Navigator.push(
               context, MaterialPageRoute(builder: (context) => Profile())); */
         },

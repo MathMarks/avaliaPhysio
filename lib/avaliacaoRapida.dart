@@ -4,10 +4,13 @@ import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_tcc_2/login_screen.dart';
+import 'dart:developer' as developer;
 
 class avaliacaoRapida extends StatefulWidget {
   final int resultadoAval;
-  const avaliacaoRapida({Key? key, required this.resultadoAval})
+  final String? observacao;
+  const avaliacaoRapida(
+      {Key? key, required this.resultadoAval, this.observacao})
       : super(key: key);
 
   @override
@@ -181,7 +184,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                                       .id;
 
                                   // save the item
-                                  print("Avaliação Rápida");
+                                  developer.log("Avaliação Rápida");
                                   var dateRaw =
                                       DateFormat('yyyy-MM-dd hh:mm:ss')
                                           .parse(DateTime.now().toString());
@@ -197,6 +200,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                                     'cpf': cpfController.text,
                                     'resultado': widget.resultadoAval,
                                     'data': date,
+                                    'obs': widget.observacao,
                                     'id': id,
                                   });
 
@@ -211,7 +215,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                                       MaterialPageRoute(
                                           builder: (context) => LoginScreen()));
                                 },
-                                child: Text("Armazenar Avaliação")),
+                                child: const Text("Armazenar Avaliação")),
                           ],
                         )
                       ],

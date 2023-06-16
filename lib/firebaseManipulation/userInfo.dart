@@ -11,21 +11,21 @@ class GetUserName extends StatelessWidget {
     CollectionReference fisioterapeutas =
         FirebaseFirestore.instance.collection("fisioterapeuta");
 
-    print("Dentro da funçaõ");
-    print(documentID);
-    print(fisioterapeutas.where(documentID));
+    // print("Dentro da funçaõ");
+    // print(documentID);
+    // print(fisioterapeutas.where(documentID));
 
     return StreamBuilder<DocumentSnapshot>(
       stream: fisioterapeutas.doc(documentID).snapshots(),
       builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        print("Dentro do stream");
-        print(snapshot);
+        // print("Dentro do stream");
+        // print(snapshot);
 
         if (snapshot.connectionState == ConnectionState.active &&
             snapshot.hasData) {
           //Informação carregada
-          print("Data value:  ");
-          print(snapshot.data!["nome"]);
+          // print("Data value:  ");
+          // print(snapshot.data!["nome"]);
           /* Map<String, dynamic> data = snapshot.data! as Map<String, dynamic>;
           print("Data value 2:  ");
           print(data); */
@@ -61,8 +61,8 @@ class GetUserEmail extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active &&
             snapshot.hasData) {
           //Informação carregada
-          print("Data value:  ");
-          print(snapshot.data!["email"]);
+          // print("Data value:  ");
+          // print(snapshot.data!["email"]);
           return Text(
               '${snapshot.data!["email"]}', //Cargo do profissional(Fisioterapeuta Intensivo, enfermeiro(a) etc)
               style: TextStyle(
@@ -96,8 +96,8 @@ class GetUserCrefito extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active &&
             snapshot.hasData) {
           //Informação carregada
-          print("Data value:  ");
-          print(snapshot.data!["crefito"]);
+          // print("Data value:  ");
+          // print(snapshot.data!["crefito"]);
           return Text(
             '${snapshot.data!["crefito"]}',
             style: TextStyle(

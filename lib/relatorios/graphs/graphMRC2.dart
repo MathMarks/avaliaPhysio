@@ -125,12 +125,12 @@ List<List<String>> buildCsvData(
         .format(element['data'].toDate())
         .toString();
     row.add(date);
-    print(row);
+    // print(row);
     resultado.add(row);
 
     test = _AvalData(date, element['resultado']);
 
-    print(resultado);
+    // print(resultado);
     row = [];
     num++;
   });

@@ -236,8 +236,8 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
             onPressed: () {
               //criar popup para possibilitar excluir a avaliação e futuramente modificar a mesma.
               _popupDelAval(avaliacoes, avalID);
-              print(avaliacoes);
-              print(avalID);
+              // print(avaliacoes);
+              // print(avalID);
             },
             icon: const Icon(Icons.delete)),
       ],

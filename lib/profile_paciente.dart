@@ -17,7 +17,7 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
 
   @override
   void initState() {
-    print("Dentro do profile" + widget.data.toString());
+    //print("Dentro do profile" + widget.data.toString());
     super.initState();
   }
 
@@ -125,7 +125,7 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
                           top: 30, bottom: 30, left: 60, right: 60),
                       backgroundColor: Colors.blue.shade400),
                   onPressed: () {
-                    print(widget.data['cpf']);
+                    //print(widget.data['cpf']);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_tcc_2/inputRowHorizontal.dart';
-import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
 import 'package:projeto_tcc_2/buscaPacientes.dart';
 import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
@@ -14,7 +13,7 @@ class AvaliacaoMRCHorizontal extends StatefulWidget {
 
 class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
   final _mrcKey = GlobalKey<FormState>();
-
+  final observacaoController = TextEditingController();
   List<int> ombrosValues = [0, 0];
   List<int> cotoveloValues = [0, 0];
   List<int> punhoValues = [0, 0];
@@ -69,6 +68,26 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
               InputRowHorizontal(quadrilValues, "Flexão de Quadril"),
               InputRowHorizontal(joelhosValues, "Flexão de Joelhos"),
               InputRowHorizontal(pesValues, "Flexão dos Pés"),
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: observacaoController,
+                decoration: InputDecoration(
+                  labelText: "Alguma observação?",
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                keyboardType: TextInputType.multiline,
+                minLines: 1, // <-- SEE HERE
+                maxLines: 8,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               TextButton(
                 style: TextButton.styleFrom(
                     primary: Colors.black, backgroundColor: Colors.white),
@@ -103,22 +122,24 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
                     valorFinal = valorFinal;
                   });
                 },
-                child: Text("Calcular"),
+                child: const Text("Calcular"),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 25, bottom: 15),
+                padding: const EdgeInsets.only(top: 25, bottom: 15),
                 child: Text(
-                  "Resultado Preliminar: " + valorFinal.toString(),
+                  "Resultado Preliminar: ${valorFinal.toString()}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
                   fraseAlerta,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w600),
                 ),
               ),
               Row(
@@ -132,8 +153,10 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
                               backgroundColor: Colors.green),
                           onPressed: () {
                             if (FirebaseAuth.instance.currentUser != null) {
-                              var aval = Mrc(valorFinal,
-                                  FirebaseAuth.instance.currentUser!.uid, "");
+                              var aval = Mrc(
+                                  valorFinal,
+                                  FirebaseAuth.instance.currentUser!.uid,
+                                  observacaoController.text);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -144,10 +167,12 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => avaliacaoRapida(
-                                          resultadoAval: valorFinal)));
+                                          resultadoAval: valorFinal,
+                                          observacao:
+                                              observacaoController.text)));
                             }
                           },
-                          child: Text("Salvar Avaliação")),
+                          child: const Text("Salvar Avaliação")),
                     ],
                   ),
                   Column(

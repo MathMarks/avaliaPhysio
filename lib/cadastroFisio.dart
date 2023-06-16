@@ -5,6 +5,7 @@ import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
+import 'dart:developer' as developer;
 
 class CadastroFisio extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class CadastroFisio extends StatefulWidget {
 }
 
 class _CadastroFisioState extends State<CadastroFisio> {
-  bool _rememberMe = false;
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -61,8 +61,9 @@ class _CadastroFisioState extends State<CadastroFisio> {
               'sexo': _dropDownSexo,
               'crefito': crefitoController.text
             })
-            .then((value) => print("Fisioterapeuta cadastrado com sucesso!"))
-            .catchError((error) => print(
+            .then((value) =>
+                developer.log("Fisioterapeuta cadastrado com sucesso!"))
+            .catchError((error) => developer.log(
                 "Ops, ocorreu algum erro ao cadastrar o fisioterapeuta: " +
                     error.toString()));
       }
@@ -329,15 +330,15 @@ class _CadastroFisioState extends State<CadastroFisio> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildCadastrarBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
         style: TextButton.styleFrom(
           backgroundColor: Colors.white,
           elevation: 5.0,
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -345,16 +346,16 @@ class _CadastroFisioState extends State<CadastroFisio> {
         onPressed: () {
           if (_validarCampos() == null) {
             _criarAuth();
-            print('Apertou Cadastrar, cadastro autorizado.');
+            developer.log('Apertou Cadastrar, cadastro autorizado.');
           } else {
             _erroDialog(context,
                 "Verificar os dados fornecidos, existem inconformidades.");
-            print('Apertou Cadastrar, cadastro não autorizado.');
+            developer.log('Apertou Cadastrar, cadastro não autorizado.');
           }
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) => Profile()));
         },
-        child: Text(
+        child: const Text(
           'Cadastrar',
           style: TextStyle(
             color: Color(0xFF527DAA),
@@ -445,7 +446,7 @@ class _CadastroFisioState extends State<CadastroFisio> {
                         SizedBox(
                           height: 30.0,
                         ),
-                        _buildLoginBtn(),
+                        _buildCadastrarBtn(),
                       ],
                     ),
                   ),
@@ -510,7 +511,7 @@ class _CadastroFisioState extends State<CadastroFisio> {
     if (_formKey.currentState!.validate()) {
       return null;
     } else {
-      return 'Preencha todos os campos';
+      return 'Por favor, preencha todos os campos corretamente.';
     }
   }
 

@@ -4,9 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
+import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
+import 'dart:developer' as developer;
 
 class CadastroPaciente extends StatefulWidget {
-  const CadastroPaciente({super.key});
+  final Mrc?
+      avaliacaoExterna; //Parametro opcional, pode ou não ser passado para a função.
+  //Dessa forma, podemos enviar informações de uma avaliação para um paciente que não
+  //esteja cadastrado ainda.
+  const CadastroPaciente({Key? key, this.avaliacaoExterna}) : super(key: key);
 
   @override
   State<CadastroPaciente> createState() => _CadastroPacienteState();
@@ -38,18 +44,17 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     super.dispose();
   }
 
-  void _cadastrar() {
+  void _cadastrar(Mrc? aval) {
     if (_formKey.currentState!.validate()) {
       CollectionReference pacientes =
           FirebaseFirestore.instance.collection('pacientes');
-      Future<void> addPaciente() {
+      Future<void> addPaciente() async {
         // Calling the collection to add a new user
-        return pacientes
+        return await pacientes
             //adding to firebase collection
             .add({
               //Data added in the form of a dictionary into the document.
               'nome': nomeController.text,
-              'peso': double.parse(pesoController.text),
               'celular': int.parse(celularController.text),
               'contato_emergencial':
                   int.parse(celularEmergencialController.text),
@@ -60,14 +65,38 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               'sexo': _dropDownSexo,
               'sus': susController.text
             })
-            .then((value) => print("Paciente cadastrado com sucesso!"))
-            .catchError((error) => print(
-                "Ops, ocorreu algum erro ao cadastrar o paciente" +
-                    error.toString()));
+            .then((value) => developer.log("Paciente cadastrado com sucesso."))
+            .catchError((error) => developer.log(
+                "Ops, ocorreu algum erro ao cadastrar o paciente ${error.toString()}"));
       }
 
       addPaciente();
-      print('Apertou Cadastrar');
+      //Como paciente já está cadastrado vamos verificar se possui uma avaliação apra vincular ao mesmo.
+      if (aval != null) {
+        //Se não for null, possui avaliação a registrar
+        //Realiza o cadastro e então segue o fluxo normal.
+
+        aval.cpfPaciente = int.parse(cpfController.text);
+        CollectionReference avaliacao =
+            FirebaseFirestore.instance.collection('avaliacao');
+        Future<void> salvaAvaliacao() {
+          return avaliacao
+              .add({
+                'fisioID': aval.fisioID,
+                'obsAvaliacao': aval.obsAvaliacao,
+                'data': aval.data,
+                'cpfPaciente': aval.cpfPaciente,
+                'resultado': aval.resultado,
+                'tipo': aval.tipo
+              })
+              .then((value) => developer.log('Avaliação salva com sucesso!'))
+              .catchError((error) => developer.log(
+                  "Ops, ocorreu algum erro ao cadastrar a Avaliação: ${error.toString()} "));
+        }
+
+        salvaAvaliacao();
+      }
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Profile()));
     }
@@ -183,42 +212,6 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                 color: Colors.white,
               ),
               hintText: 'Digite o número SUS',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPesoTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Peso',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            controller: pesoController,
-            keyboardType: TextInputType.number,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.pin_rounded,
-                color: Colors.white,
-              ),
-              hintText: 'Digite o peso do Paciente',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -408,34 +401,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
   }
 
   Widget _buildCadastrarBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: ElevatedButton(
-        style: TextButton.styleFrom(
-          backgroundColor: Colors.white,
-          elevation: 5.0,
-          padding: EdgeInsets.all(15.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        onPressed: () {
-          print("teste");
-          _cadastrar();
-        },
-        child: Text(
-          'Cadastrar Paciente',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
+    return _mudaTextoBtnCadastro();
   }
 
   @override
@@ -519,10 +485,6 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                         SizedBox(
                           height: 30.0,
                         ),
-                        _buildPesoTF(),
-                        SizedBox(
-                          height: 30.0,
-                        ),
                         _buildCadastrarBtn(),
                       ],
                     ),
@@ -534,6 +496,14 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
         ),
       ),
     );
+  }
+
+  String? _validarCampos() {
+    if (_formKey.currentState!.validate()) {
+      return null;
+    } else {
+      return 'Por favor, preencha todos os campos corretamente.';
+    }
   }
 
   String? _validarNome(String? nome) {
@@ -566,5 +536,106 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     } else {
       return null;
     }
+  }
+
+  Widget _mudaTextoBtnCadastro() {
+    if (widget.avaliacaoExterna != null) {
+      //Uma avaliação foi passada como parâmetro.
+      //Deve ser salva após o cadastro
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 25.0),
+        width: double.infinity,
+        child: ElevatedButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            elevation: 5.0,
+            padding: const EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+          onPressed: () {
+            if (_validarCampos() == null) {
+              _cadastrar(widget.avaliacaoExterna);
+              developer.log(
+                  "Cadastro do paciente autorizado e realizado com sucesso!");
+            } else {
+              _erroDialog(context,
+                  "Cadastro do paciente não autorizado. Campos inválidos.");
+              developer.log(
+                  "Cadastro do paciente não autorizado. Campos inválidos.");
+            }
+          },
+          child: const Text(
+            'Cadastrar Paciente e Salvar Avaliação',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'OpenSans',
+            ),
+          ),
+        ),
+      );
+    } else {
+      // Caso não tenha nada a salvar, segue o fluxo normal de cadastro simples.
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 25.0),
+        width: double.infinity,
+        child: ElevatedButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            elevation: 5.0,
+            padding: const EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+          onPressed: () {
+            if (_validarCampos() == null) {
+              _cadastrar(null);
+              developer.log(
+                  "Cadastro do paciente autorizado e realizado com sucesso!");
+            } else {
+              _erroDialog(context,
+                  "Cadastro do paciente não autorizado. Campos inválidos.");
+              developer.log(
+                  "Cadastro do paciente não autorizado. Campos inválidos.");
+            }
+          },
+          child: const Text(
+            'Cadastrar Paciente',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'OpenSans',
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void _erroDialog(BuildContext context, String erro) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Dados inválidos"),
+          content: Text(erro),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

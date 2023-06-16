@@ -2,7 +2,6 @@ import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_tcc_2/buscaPacientes.dart';
-import 'package:projeto_tcc_2/avaliacaoMRCHorizontal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/firebaseManipulation/userInfo.dart';
 import 'package:projeto_tcc_2/buscaPacientesFisio.dart';
@@ -12,8 +11,11 @@ import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
 
 class Profile extends StatefulWidget {
+  final String? msgPopUp;
+
+  const Profile({Key? key, this.msgPopUp}) : super(key: key);
   @override
-  _ProfileState createState() => _ProfileState();
+  State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
@@ -25,7 +27,7 @@ class _ProfileState extends State<Profile> {
         .collection('fisioterapeuta')
         .get()
         .then((snapshot) => {
-              print(snapshot),
+              //print(snapshot),
             });
   }
 
@@ -177,6 +179,22 @@ class _ProfileState extends State<Profile> {
                                       )
                                     ],
                                   )),
+                                  Divider(),
+                                  TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.white),
+                                      onPressed: () {
+                                        //print("Teste requested");
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BuscaPacientes(
+                                                      aval: Mrc(
+                                                          10, "fisioID", ""),
+                                                    )));
+                                      },
+                                      child: const Text("Test purpose!"))
                                 ],
                               ),
                             )
@@ -520,6 +538,7 @@ class _ProfileState extends State<Profile> {
                   int resultado = values.values.elementAt(index)['resultado'];
                   var data = values.values.elementAt(index)['data'];
                   var id = values.values.elementAt(index)['id'];
+                  var obsAvaliacao = values.values.elementAt(index)['obs'];
 
                   return Column(
                     children: [
@@ -529,8 +548,10 @@ class _ProfileState extends State<Profile> {
                             subtitle: Text('CPF: $cpf,  $data'),
                           ),
                           onTap: () {
-                            var aval = Mrc(resultado,
-                                FirebaseAuth.instance.currentUser!.uid, "");
+                            var aval = Mrc(
+                                resultado,
+                                FirebaseAuth.instance.currentUser!.uid,
+                                obsAvaliacao);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -544,7 +565,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.check),
-                                tooltip: 'Excluir',
+                                tooltip: 'Salvar',
                                 color: Colors.green,
                                 onPressed: () {
                                   var aval = Mrc(
@@ -570,7 +591,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.delete),
-                                tooltip: 'Salvar',
+                                tooltip: 'Excluir',
                                 color: Colors.red,
                                 onPressed: () {
                                   setState(() {

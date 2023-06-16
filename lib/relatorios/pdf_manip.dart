@@ -70,15 +70,15 @@ class PdfManip {
     final bytes = await pdf.save();
     final dir = await getApplicationSupportDirectory();
     final file = File('${dir.path}/$name');
-    print(file);
-    print('${dir.path}/$name');
+    // print(file);
+    // print('${dir.path}/$name');
     await file.writeAsBytes(bytes);
     return file;
   }
 
   static Future openFile(File file) async {
     final url = file.path;
-    print(url);
+    // print(url);
     await OpenFile.open(url);
   }
 
@@ -101,7 +101,7 @@ class PdfManip {
           .doc(element['fisioID'])
           .get();
       row.add(nomeFisioSnap['nome']);
-      print(row);
+      // print(row);
       resultado.add(row);
       //print(resultado);
       row = [];
