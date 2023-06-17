@@ -98,7 +98,10 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
       }
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile()));
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const Profile(msgPopUp: "Paciente cadastrado com sucesso!")));
     }
   }
 

@@ -34,15 +34,27 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    // var userIn = FirebaseFirestore.instance
-    //     .collection("fisioterapeuta")
-    //     .doc(user.uid)
-    //     .get();
-    //print(userIn);
-    //print(dado);
-    //_localDb.collection('avaliacoes').delete();
     GetUserName(documentID: user.uid.toString());
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.msgPopUp != null) {
+        await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: const Text("Aviso"),
+                  content: Text("${widget.msgPopUp}"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
+      }
+    });
   }
 
   @override
@@ -205,7 +217,7 @@ class _ProfileState extends State<Profile> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Menu",
                                           style: TextStyle(
                                             fontSize: 17.0,
@@ -224,7 +236,7 @@ class _ProfileState extends State<Profile> {
                                               color: Colors.blueAccent[400],
                                               size: 35,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 20.0,
                                             ),
                                             GestureDetector(
@@ -239,7 +251,7 @@ class _ProfileState extends State<Profile> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Meus Pacientes",
                                                     style: TextStyle(
                                                       fontSize: 15.0,
@@ -257,7 +269,7 @@ class _ProfileState extends State<Profile> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20.0,
                                         ),
                                         Row(
@@ -269,7 +281,7 @@ class _ProfileState extends State<Profile> {
                                               color: Colors.yellowAccent[400],
                                               size: 35,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 20.0,
                                             ),
                                             GestureDetector(
@@ -284,7 +296,7 @@ class _ProfileState extends State<Profile> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Realizar Avaliação Funcional",
                                                     style: TextStyle(
                                                       fontSize: 15.0,
@@ -302,7 +314,7 @@ class _ProfileState extends State<Profile> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20.0,
                                         ),
                                         Row(
@@ -314,7 +326,7 @@ class _ProfileState extends State<Profile> {
                                               color: Colors.pinkAccent[400],
                                               size: 35,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 20.0,
                                             ),
                                             GestureDetector(
@@ -329,7 +341,7 @@ class _ProfileState extends State<Profile> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Cadastrar novo paciente",
                                                     style: TextStyle(
                                                       fontSize: 15.0,
@@ -347,12 +359,15 @@ class _ProfileState extends State<Profile> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20.0,
                                         ),
                                         GestureDetector(
-                                          onTap: () =>
-                                              FirebaseAuth.instance.signOut(),
+                                          onTap: () => {
+                                            developer.log(
+                                                "Pressionou modificar dados",
+                                                name: "Modificar Dados")
+                                          },
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -362,21 +377,21 @@ class _ProfileState extends State<Profile> {
                                                 color: Colors.lightGreen[400],
                                                 size: 35,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 20.0,
                                               ),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    "Sair",
+                                                  const Text(
+                                                    "Meus dados",
                                                     style: TextStyle(
                                                       fontSize: 15.0,
                                                     ),
                                                   ),
                                                   Text(
-                                                    "Sair da sua Conta",
+                                                    "Atualizar meus dados",
                                                     style: TextStyle(
                                                       fontSize: 12.0,
                                                       color: Colors.grey[400],
@@ -395,70 +410,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            // Positioned(
-            //     top: MediaQuery.of(context).size.height * 0.60,
-            //     left: 20.0,
-            //     right: 20.0,
-            //     child: Card(
-            //         child: Padding(
-            //       padding: EdgeInsets.all(16.0),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //         children: [
-            //           Container(
-            //               child: Column(
-            //             children: [
-            //               Text(
-            //                 'Pacientes',
-            //                 style: TextStyle(
-            //                     color: Colors.grey[400], fontSize: 14.0),
-            //               ),
-            //               SizedBox(
-            //                 height: 5.0,
-            //               ),
-            //               Text(
-            //                 "3",
-            //                 style: TextStyle(
-            //                   fontSize: 15.0,
-            //                 ),
-            //               )
-            //             ],
-            //           )),
-            //           Container(
-            //             child: Column(children: [
-            //               Text(
-            //                 'CREFITO',
-            //                 style: TextStyle(
-            //                     color: Colors.grey[400], fontSize: 14.0),
-            //               ),
-            //               SizedBox(
-            //                 height: 5.0,
-            //               ),
-            //               GetUserCrefito(documentID: user.uid)
-            //             ]),
-            //           ),
-            //           Container(
-            //               child: Column(
-            //             children: [
-            //               Text(
-            //                 'Info',
-            //                 style: TextStyle(
-            //                     color: Colors.grey[400], fontSize: 14.0),
-            //               ),
-            //               SizedBox(
-            //                 height: 5.0,
-            //               ),
-            //               Text(
-            //                 'A decidir',
-            //                 style: TextStyle(
-            //                   fontSize: 15.0,
-            //                 ),
-            //               )
-            //             ],
-            //           )),
-            //         ],
-            //       ),
-            //     )))
           ],
         ),
         floatingActionButton: _mostraAFB(),
@@ -476,8 +427,7 @@ class _ProfileState extends State<Profile> {
     // set up the button
     final dado = await _localDb.collection('avaliacoes').get();
     final Map<String, dynamic>? values = dado;
-    //print(values);
-    //print(values?.values.elementAt(1)['nome']);
+
     // set up the AlertDialog
     SimpleDialog alert = SimpleDialog(
         title: const Center(child: Text("Avaliações Rápidas")),
@@ -627,13 +577,13 @@ class _ProfileState extends State<Profile> {
   Widget _mostraAFB() {
     final docs = _localDb.collection('avaliacoes').get();
 
-    developer.log(docs.asStream().length.toString(), name: "AFB 2");
+    //developer.log(docs.asStream().length.toString(), name: "AFB 2");
     return StreamBuilder<Map<String, dynamic>?>(
       stream: docs.asStream(),
       builder: ((context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
-        developer.log(snapshot.toString());
+        //developer.log(snapshot.toString());
         if (snapshot.hasData) {
-          developer.log("Tem dados no armazenamento local", name: "LocalStore");
+          //developer.log("Tem dados no armazenamento local", name: "LocalStore");
           return FloatingActionButton.extended(
             onPressed: () {
               showAlertDialog(context);
@@ -643,8 +593,7 @@ class _ProfileState extends State<Profile> {
             backgroundColor: Colors.indigoAccent,
           );
         } else {
-          developer.log("Não tem dados no armazenamento local",
-              name: "LocalStore");
+          // developer.log("Não tem dados no armazenamento local",name: "LocalStore");
           return Container();
         }
       }),

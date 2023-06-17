@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:projeto_tcc_2/profile_paciente.dart';
 import 'dart:developer' as developer;
 
@@ -18,10 +17,10 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
   @override
   void initState() {
     developer.log(user.uid);
-    var userIn = FirebaseFirestore.instance
-        .collection("pacientes")
-        .where('fisioID', isEqualTo: user.uid.toString())
-        .snapshots();
+    // var userIn = FirebaseFirestore.instance
+    //     .collection("pacientes")
+    //     .where('fisioID', isEqualTo: user.uid.toString())
+    //     .snapshots();
     //developer.log(userIn);
     super.initState();
   }
@@ -33,7 +32,7 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
         appBar: AppBar(
             title: Card(
           child: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 hintText: 'Nome do Paciente...'),
             onChanged: (val) {
@@ -50,7 +49,7 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
               .snapshots(),
           builder: (context, snapshots) {
             return (snapshots.connectionState == ConnectionState.waiting)
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
@@ -62,7 +61,7 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
                       if (nome.isEmpty) {
                         return GestureDetector(
                           onTap: () {
-                            developer.log("Clicou no: " + data.toString());
+                            developer.log("Clicou no: ${data.toString()}");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -74,16 +73,16 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
                                 data['nome'],
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black54,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'CPF: ' + data['cpf'].toString(),
+                                'CPF: ${data['cpf'].toString()}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -111,16 +110,16 @@ class _BuscaPacientesFisioState extends State<BuscaPacientesFisio> {
                                 data['nome'].toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black54,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                'CPF: ' + data['cpf'].toString(),
+                                'CPF: ${data['cpf'].toString()}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
