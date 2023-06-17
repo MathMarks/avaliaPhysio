@@ -9,6 +9,7 @@ import 'package:projeto_tcc_2/cadastroPacientes.dart';
 import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
+import 'dart:developer' as developer;
 
 class Profile extends StatefulWidget {
   final String? msgPopUp;
@@ -50,30 +51,23 @@ class _ProfileState extends State<Profile> {
 
     if (FirebaseAuth.instance.currentUser != null) {
       return Scaffold(
-        /* floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AvaliacaoMRCHorizontal()));
-        },
-        child: Container(
-          width: 60,
-          height: 60,
-          child: Icon(Icons.add),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF73AEF5),
-                  Color(0xFF61A4F1),
-                  Color(0xFF478DE0),
-                  Color(0xFF398AE5),
-                ],
-              )),
+        appBar: AppBar(
+          title: Text('Perfil'),
+          centerTitle: true,
+          backgroundColor: Colors.blue,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => LoginScreen()));
+              },
+            )
+          ],
         ),
-      ),
-      */
         body: Stack(
           children: [
             Column(
@@ -98,7 +92,7 @@ class _ProfileState extends State<Profile> {
                         child: SingleChildScrollView(
                           child: Column(children: [
                             SizedBox(
-                              height: screenSize.height.toInt() * 0.15,
+                              height: screenSize.height.toInt() * 0.10,
                             ),
                             CircleAvatar(
                               radius: 65.0,
@@ -468,12 +462,6 @@ class _ProfileState extends State<Profile> {
           ],
         ),
         floatingActionButton: _mostraAFB(),
-        // floatingActionButton: FloatingActionButton.extended(
-        //   onPressed: () {},
-        //   icon: const Icon(Icons.play_arrow),
-        //   label: const Text('Avaliações não salvas'),
-        //   backgroundColor: Colors.indigoAccent,
-        // ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
       );
     } else {
@@ -482,22 +470,6 @@ class _ProfileState extends State<Profile> {
     }
 
     return Scaffold();
-  }
-
-  Widget _mostraAFB() {
-    //if (_localDb.toString().isNotEmpty) {
-    //colocar para verificar se tem algo armazenado temporáriamente
-    //return Container();
-    //} else {
-    return FloatingActionButton.extended(
-      onPressed: () {
-        showAlertDialog(context);
-      },
-      icon: const Icon(Icons.history),
-      label: const Text('Avaliações não salvas'),
-      backgroundColor: Colors.indigoAccent,
-    );
-    // }
   }
 
   showAlertDialog(BuildContext context) async {
@@ -638,9 +610,9 @@ class _ProfileState extends State<Profile> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Importante!'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text('A Avaliação Rápida foi excluída com êxito.'),
               ],
             ),
@@ -656,5 +628,67 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  Widget _mostraAFBT() {
+    final docs = _localDb.collection('avaliacoes').get();
+
+    developer.log(docs.asStream().length.toString(), name: "AFB");
+
+    if (1 > 0) {
+      //colocar para verificar se tem algo armazenado temporáriamente
+      return Container();
+    } else {
+      return FloatingActionButton.extended(
+        onPressed: () {
+          showAlertDialog(context);
+        },
+        icon: const Icon(Icons.history),
+        label: const Text('Avaliações não salvas'),
+        backgroundColor: Colors.indigoAccent,
+      );
+      // }
+    }
+  }
+
+  Widget _mostraAFB() {
+    final docs = _localDb.collection('avaliacoes').get();
+
+    developer.log(docs.asStream().length.toString(), name: "AFB 2");
+    return StreamBuilder<Map<String, dynamic>?>(
+      stream: docs.asStream(),
+      builder: ((context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+        developer.log(snapshot.toString());
+        if (snapshot.hasData) {
+          developer.log("Tem dados no armazenamento local", name: "LocalStore");
+          return FloatingActionButton.extended(
+            onPressed: () {
+              showAlertDialog(context);
+            },
+            icon: const Icon(Icons.history),
+            label: const Text('Avaliações não salvas'),
+            backgroundColor: Colors.indigoAccent,
+          );
+        } else {
+          developer.log("Não tem dados no armazenamento local",
+              name: "LocalStore");
+          return Container();
+        }
+      }),
+    );
+    // if (1 > 0) {
+    //   //colocar para verificar se tem algo armazenado temporáriamente
+    //   return Container();
+    // } else {
+    //   return FloatingActionButton.extended(
+    //     onPressed: () {
+    //       showAlertDialog(context);
+    //     },
+    //     icon: const Icon(Icons.history),
+    //     label: const Text('Avaliações não salvas'),
+    //     backgroundColor: Colors.indigoAccent,
+    //   );
+    //   // }
+    // }
   }
 }
