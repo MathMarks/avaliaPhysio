@@ -126,7 +126,7 @@ class _ProfileState extends State<Profile> {
                                       child: Column(
                                     children: [
                                       Text(
-                                        'Pacientes',
+                                        'Meus Pacientes',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,
@@ -135,12 +135,7 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text(
-                                        "3",
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                        ),
-                                      )
+                                      GetPacientsNum(documentID: user.uid)
                                     ],
                                   )),
                                   Container(
@@ -162,7 +157,7 @@ class _ProfileState extends State<Profile> {
                                       child: Column(
                                     children: [
                                       Text(
-                                        'Info',
+                                        'Total Na UTI',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,
@@ -171,12 +166,7 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         height: 5.0,
                                       ),
-                                      Text(
-                                        'A decidir',
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                        ),
-                                      )
+                                      GetPacientsTotal(documentID: user.uid)
                                     ],
                                   )),
                                   Divider(),

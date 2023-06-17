@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as dev;
 
 class GetUserName extends StatelessWidget {
   final String documentID;
@@ -83,7 +85,7 @@ class GetUserEmail extends StatelessWidget {
 class GetUserCrefito extends StatelessWidget {
   final String documentID;
 
-  GetUserCrefito({required this.documentID});
+  const GetUserCrefito({required this.documentID});
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +102,75 @@ class GetUserCrefito extends StatelessWidget {
           // print(snapshot.data!["crefito"]);
           return Text(
             '${snapshot.data!["crefito"]}',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15.0,
             ),
           );
         }
-        return Text('0000',
+        return const Text('error',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ));
+      }),
+    );
+  }
+}
+
+class GetPacientsNum extends StatelessWidget {
+  final String documentID;
+
+  const GetPacientsNum({required this.documentID});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection("pacientes")
+          .where('fisioID', isEqualTo: documentID)
+          .snapshots(),
+      builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active &&
+            snapshot.hasData) {
+          final num = snapshot.data!.docs.length;
+          return Text(
+            '$num',
+            style: const TextStyle(
+              fontSize: 15.0,
+            ),
+          );
+        }
+        return const Text('error',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ));
+      }),
+    );
+  }
+}
+
+class GetPacientsTotal extends StatelessWidget {
+  final String documentID;
+
+  const GetPacientsTotal({required this.documentID});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection("pacientes").snapshots(),
+      builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active &&
+            snapshot.hasData) {
+          final num = snapshot.data!.docs.length;
+          return Text(
+            '$num',
+            style: const TextStyle(
+              fontSize: 15.0,
+            ),
+          );
+        }
+        return const Text('error',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
