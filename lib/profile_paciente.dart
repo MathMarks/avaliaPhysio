@@ -25,7 +25,7 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Perfil Paciente"),
+        title: const Text("Perfil Paciente"),
       ),
       body: ListView(
         children: <Widget>[
@@ -85,11 +85,11 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
             style: TextStyle(fontSize: 20, color: Colors.black54),
           ),
           const SizedBox(height: 16),
-          Divider(),
+          const Divider(),
           const SizedBox(height: 16),
           _constroiObservacao(),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [],
           )
@@ -97,11 +97,11 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
       );
 
   Widget _constroiObservacao() => Container(
-        padding: EdgeInsets.symmetric(horizontal: 48),
+        padding: const EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 20),
                 child: Text(
@@ -117,11 +117,11 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
               child: TextButton(
                   style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 30, bottom: 30, left: 60, right: 60),
                       backgroundColor: Colors.blue.shade400),
                   onPressed: () {
@@ -132,7 +132,7 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
                             builder: (context) =>
                                 RelatorioMRC(cpf: widget.data['cpf'])));
                   },
-                  child: Text("Relatório MRC")),
+                  child: const Text("Relatório MRC")),
             )
           ],
         ),

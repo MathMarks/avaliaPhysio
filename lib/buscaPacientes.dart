@@ -164,7 +164,7 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
                     MaterialPageRoute(
                       builder: (context) => ProfilePaciente(data: data),
                     ),
-                    (route) => true);
+                    (route) => route.isFirst);
               },
             ),
             TextButton(

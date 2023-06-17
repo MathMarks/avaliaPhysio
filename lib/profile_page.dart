@@ -52,12 +52,12 @@ class _ProfileState extends State<Profile> {
     if (FirebaseAuth.instance.currentUser != null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Perfil'),
+          title: const Text('Perfil'),
           centerTitle: true,
           backgroundColor: Colors.blue,
           actions: [
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(
@@ -79,7 +79,7 @@ class _ProfileState extends State<Profile> {
                     builder: (context, snapshot) {
                       return Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
                               Color(0xFF73AEF5),
@@ -94,20 +94,20 @@ class _ProfileState extends State<Profile> {
                             SizedBox(
                               height: screenSize.height.toInt() * 0.10,
                             ),
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 65.0,
                               //backgroundImage: AssetImage(),
                               backgroundColor: Colors.white,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             GetUserName(documentID: user.uid),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             GetUserEmail(documentID: user.uid),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             Padding(
@@ -119,14 +119,14 @@ class _ProfileState extends State<Profile> {
                                   Container(
                                       child: Column(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Meus Pacientes',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5.0,
                                       ),
                                       GetPacientsNum(documentID: user.uid)
@@ -134,14 +134,14 @@ class _ProfileState extends State<Profile> {
                                   )),
                                   Container(
                                     child: Column(children: [
-                                      Text(
+                                      const Text(
                                         'CREFITO',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5.0,
                                       ),
                                       GetUserCrefito(documentID: user.uid)
@@ -150,20 +150,20 @@ class _ProfileState extends State<Profile> {
                                   Container(
                                       child: Column(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Total Na UTI',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5.0,
                                       ),
                                       GetPacientsTotal(documentID: user.uid)
                                     ],
                                   )),
-                                  Divider(),
+                                  const Divider(),
                                   TextButton(
                                       style: TextButton.styleFrom(
                                           backgroundColor: Colors.white),
@@ -469,24 +469,18 @@ class _ProfileState extends State<Profile> {
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
     }
 
-    return Scaffold();
+    return const Scaffold();
   }
 
   showAlertDialog(BuildContext context) async {
     // set up the button
-    Widget fecharButton = TextButton(
-      child: Text("Fechar"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
     final dado = await _localDb.collection('avaliacoes').get();
     final Map<String, dynamic>? values = dado;
     //print(values);
     //print(values?.values.elementAt(1)['nome']);
     // set up the AlertDialog
     SimpleDialog alert = SimpleDialog(
-        title: Center(child: Text("Avaliações Rápidas")),
+        title: const Center(child: Text("Avaliações Rápidas")),
         children: [
           SizedBox(
             height: 350,
@@ -541,7 +535,7 @@ class _ProfileState extends State<Profile> {
                                               BuscaPacientes(aval: aval)));
                                 },
                               ),
-                              Text(
+                              const Text(
                                 "Salvar registro",
                                 style: TextStyle(
                                     color: Colors.greenAccent,
@@ -566,7 +560,7 @@ class _ProfileState extends State<Profile> {
                                   });
                                 },
                               ),
-                              Text(
+                              const Text(
                                 "Excluir registro",
                                 style: TextStyle(
                                     color: Colors.redAccent,
@@ -576,14 +570,14 @@ class _ProfileState extends State<Profile> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       )
                     ],
                   );
                 },
                 separatorBuilder: (BuildContext context, index) {
-                  return Divider(
+                  return const Divider(
                     height: 20,
                     thickness: 3,
                   );
@@ -630,27 +624,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _mostraAFBT() {
-    final docs = _localDb.collection('avaliacoes').get();
-
-    developer.log(docs.asStream().length.toString(), name: "AFB");
-
-    if (1 > 0) {
-      //colocar para verificar se tem algo armazenado temporáriamente
-      return Container();
-    } else {
-      return FloatingActionButton.extended(
-        onPressed: () {
-          showAlertDialog(context);
-        },
-        icon: const Icon(Icons.history),
-        label: const Text('Avaliações não salvas'),
-        backgroundColor: Colors.indigoAccent,
-      );
-      // }
-    }
-  }
-
   Widget _mostraAFB() {
     final docs = _localDb.collection('avaliacoes').get();
 
@@ -676,19 +649,5 @@ class _ProfileState extends State<Profile> {
         }
       }),
     );
-    // if (1 > 0) {
-    //   //colocar para verificar se tem algo armazenado temporáriamente
-    //   return Container();
-    // } else {
-    //   return FloatingActionButton.extended(
-    //     onPressed: () {
-    //       showAlertDialog(context);
-    //     },
-    //     icon: const Icon(Icons.history),
-    //     label: const Text('Avaliações não salvas'),
-    //     backgroundColor: Colors.indigoAccent,
-    //   );
-    //   // }
-    // }
   }
 }

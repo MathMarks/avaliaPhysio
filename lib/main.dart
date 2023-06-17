@@ -4,6 +4,7 @@ import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/profile_page.dart';
+import 'package:projeto_tcc_2/profile_paciente.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,5 +43,10 @@ class Myapp extends StatelessWidget {
         supportedLocales: const [
           Locale('pt', 'BR'),
         ],
+        routes: {
+          '/profile': (context) => Profile(),
+          '/login': (context) => LoginScreen(),
+          '/profilePaciente': (context) => const ProfilePaciente(data: ""),
+        },
       );
 }
