@@ -9,6 +9,7 @@ import 'package:projeto_tcc_2/cadastroPacientes.dart';
 import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
+import 'package:projeto_tcc_2/change_profile_info.dart';
 import 'dart:developer' as developer;
 
 class Profile extends StatefulWidget {
@@ -23,14 +24,14 @@ class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser!;
   final _localDb = Localstore.instance;
 
-  Future getUserData() async {
-    await FirebaseFirestore.instance
-        .collection('fisioterapeuta')
-        .get()
-        .then((snapshot) => {
-              //print(snapshot),
-            });
-  }
+  // Future getUserData() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('fisioterapeuta')
+  //       .get()
+  //       .then((snapshot) => {
+  //             //print(snapshot),
+  //           });
+  // }
 
   @override
   void initState() {
@@ -175,22 +176,19 @@ class _ProfileState extends State<Profile> {
                                       GetPacientsTotal(documentID: user.uid)
                                     ],
                                   )),
-                                  const Divider(),
-                                  TextButton(
-                                      style: TextButton.styleFrom(
-                                          backgroundColor: Colors.white),
-                                      onPressed: () {
-                                        //print("Teste requested");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BuscaPacientes(
-                                                      aval: Mrc(
-                                                          10, "fisioID", ""),
-                                                    )));
-                                      },
-                                      child: const Text("Test purpose!"))
+                                  // const Divider(),
+                                  // TextButton(
+                                  //     style: TextButton.styleFrom(
+                                  //         backgroundColor: Colors.white),
+                                  //     onPressed: () {
+                                  //       //print("Teste requested");
+                                  //       Navigator.push(
+                                  //           context,
+                                  //           MaterialPageRoute(
+                                  //               builder: (context) =>
+                                  //                   ChangeProfileInfo()));
+                                  //     },
+                                  //     child: const Text("Test purpose!"))
                                 ],
                               ),
                             )
@@ -364,9 +362,11 @@ class _ProfileState extends State<Profile> {
                                         ),
                                         GestureDetector(
                                           onTap: () => {
-                                            developer.log(
-                                                "Pressionou modificar dados",
-                                                name: "Modificar Dados")
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChangeProfileInfo()))
                                           },
                                           child: Row(
                                             mainAxisAlignment:
