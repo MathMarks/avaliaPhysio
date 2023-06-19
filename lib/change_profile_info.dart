@@ -10,6 +10,12 @@ class ChangeProfileInfo extends StatefulWidget {
 }
 
 class _ChangeProfileInfoState extends State<ChangeProfileInfo> {
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _crefitoController = TextEditingController();
+  final TextEditingController _celularController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,23 +51,15 @@ class _ChangeProfileInfoState extends State<ChangeProfileInfo> {
               height: 60,
             ),
             const Divider(),
-            _inputTextEdit("Seu nome", "nome"),
+            _inputTextEdit("Seu nome", "nome", _nomeController),
             const SizedBox(
               height: 30,
             ),
-            _inputTextEdit("Seu e-mail", "email"),
+            _inputTextEdit("Crefito", "crefito", _crefitoController),
             const SizedBox(
               height: 30,
             ),
-            _inputTextEdit("Crefito", "crefito"),
-            const SizedBox(
-              height: 30,
-            ),
-            _inputTextEdit("Celular", "celular"),
-            const SizedBox(
-              height: 30,
-            ),
-            _inputTextEdit("Gênero", "sexo"),
+            _inputTextEdit("Celular", "celular", _celularController),
             const SizedBox(
               height: 30,
             ),
@@ -71,7 +69,8 @@ class _ChangeProfileInfoState extends State<ChangeProfileInfo> {
     );
   }
 
-  Widget _inputTextEdit(String label, String value) {
+  Widget _inputTextEdit(
+      String label, String value, TextEditingController controller) {
     final user = FirebaseAuth.instance.currentUser!;
     return StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
