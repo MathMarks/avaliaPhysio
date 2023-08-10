@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ffi';
 import 'package:group_button/group_button.dart';
 
 class InputRowHorizontal extends StatelessWidget {
