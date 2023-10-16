@@ -6,13 +6,13 @@ class InputRowHorizontal extends StatelessWidget {
 
   List<int> values;
 
-  InputRowHorizontal(this.values, this.parteDoCopro);
+  InputRowHorizontal(this.values, this.parteDoCopro, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: SingleChildScrollView(
@@ -21,10 +21,10 @@ class InputRowHorizontal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 15),
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
               child: Text(
                 parteDoCopro,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     letterSpacing: 2,
                     fontWeight: FontWeight.w800),
@@ -39,10 +39,10 @@ class InputRowHorizontal extends StatelessWidget {
                   Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 15),
+                        padding: const EdgeInsets.only(bottom: 15),
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               "Direita",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
@@ -54,14 +54,14 @@ class InputRowHorizontal extends StatelessWidget {
                               isRadio: true,
                               onSelected: (value, index, isSelected) =>
                                   {values[0] = value},
-                              buttons: [1, 2, 3, 4, 5],
+                              buttons: const [1, 2, 3, 4, 5],
                             ),
                           ],
                         ),
                       ),
                       Column(
                         children: [
-                          Text(
+                          const Text(
                             "Esquerda",
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
@@ -73,7 +73,7 @@ class InputRowHorizontal extends StatelessWidget {
                             isRadio: true,
                             onSelected: (value, index, isSelected) =>
                                 {values[1] = value},
-                            buttons: [1, 2, 3, 4, 5],
+                            buttons: const [1, 2, 3, 4, 5],
                           ),
                         ],
                       )

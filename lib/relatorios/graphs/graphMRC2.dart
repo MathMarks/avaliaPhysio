@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -48,7 +47,7 @@ class graphmrcTState extends State<graphmrcT> {
                     yValueMapper: (_AvalData sales, _) => sales.sales,
                     name: 'Resultado',
                     // Enable data label
-                    dataLabelSettings: DataLabelSettings(isVisible: true))
+                    dataLabelSettings: const DataLabelSettings(isVisible: true))
               ]),
           // Expanded(
           //   child: Padding(
@@ -84,14 +83,14 @@ List<_AvalData> buildGraphData(
     List<QueryDocumentSnapshot<Map<String, dynamic>>> docsAval) {
   var row = [];
   var nomeFisioSnap;
-  var date;
-  var test;
+  String date;
+  _AvalData test;
 
   List<_AvalData> listaDeAval = [];
 
   List<List<dynamic>> resultado = [];
 
-  docsAval.forEach((element) {
+  for (var element in docsAval) {
     row.add(element['resultado']);
     date = DateFormat('dd/MM/yy HH:mm:ss')
         .format(element['data'].toDate())
@@ -103,7 +102,7 @@ List<_AvalData> buildGraphData(
     listaDeAval.add(test);
     //print(resultado);
     row = [];
-  });
+  }
 
   //print(listaDeAval[1].year);
 
@@ -113,12 +112,12 @@ List<_AvalData> buildGraphData(
 List<List<String>> buildCsvData(
     List<QueryDocumentSnapshot<Map<String, dynamic>>> docsAval) {
   List<String> row = [];
-  var date;
-  var test;
+  String date;
+  _AvalData test;
   int num = 0;
   List<List<String>> resultado = [];
 
-  docsAval.forEach((element) {
+  for (var element in docsAval) {
     row.add(num.toString());
     row.add(element['resultado'].toString());
     date = DateFormat('dd/MM/yy HH:mm:ss')
@@ -133,7 +132,7 @@ List<List<String>> buildCsvData(
     // print(resultado);
     row = [];
     num++;
-  });
+  }
 
   return resultado;
 }

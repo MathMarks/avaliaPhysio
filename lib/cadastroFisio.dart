@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_tcc_2/constants.dart';
-import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:projeto_tcc_2/profile_page.dart';
 import 'dart:developer' as developer;
 
+import 'package:projeto_tcc_2/login_screen.dart';
+
 class CadastroFisio extends StatefulWidget {
+  const CadastroFisio({super.key});
+
   @override
   _CadastroFisioState createState() => _CadastroFisioState();
 }
@@ -43,33 +45,40 @@ class _CadastroFisioState extends State<CadastroFisio> {
     }
   }
 
-  void _cadastrarFisio(fisioID) {
+  Future _cadastrarFisio(fisioID) async {
     if (_formKey.currentState!.validate()) {
-      CollectionReference pacientes =
+      CollectionReference fisios =
           FirebaseFirestore.instance.collection('fisioterapeuta');
-      Future<void> addFisio() async {
-        // Calling the collection to add a new user
-        return await pacientes
-            //adding to firebase collection
-            .doc(fisioID)
-            .set({
-              //Data added in the form of a dictionary into the document.
-              'nome': nomeController.text,
-              'celular': int.parse(celularController.text),
-              'cpf': int.parse(cpfController.text),
-              'email': emailController.text,
-              'sexo': _dropDownSexo,
-              'crefito': crefitoController.text
-            })
-            .then((value) =>
-                developer.log("Fisioterapeuta cadastrado com sucesso!"))
-            .catchError((error) => developer.log(
-                "Ops, ocorreu algum erro ao cadastrar o fisioterapeuta: " +
-                    error.toString()));
-      }
+      // DocumentSnapshot<Object?> fisioDoc = await fisios.doc(fisioID).get();
 
-      addFisio();
-      logar(emailController.text, passwordController.text);
+      // // Calling the collection to add a new user
+      // developer.log("Tentativa de criar um usuário com o id: $fisioID");
+      fisios
+          .doc(fisioID)
+          .set({
+            //Dados a serem adicionados no documento
+            'nome': nomeController.text,
+            'celular': int.parse(celularController.text),
+            'cpf': int.parse(cpfController.text),
+            'email': emailController.text,
+            'sexo': _dropDownSexo,
+            'crefito': crefitoController.text
+          })
+          .then((value) =>
+              developer.log("Fisioterapeuta cadastrado com sucesso!"))
+          .catchError((error) => developer.log(
+              "Ops, ocorreu algum erro ao cadastrar o fisioterapeuta: $error"));
+
+      developer.log(
+          "Enviar usuário para tela de login com aviso de cadastro realizado.");
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const LoginScreen(infoMessage: "Cadastro Realizado!")));
+
+      //logar(emailController.text, passwordController.text);
     }
   }
 
@@ -77,11 +86,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'E-mail',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -89,11 +98,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
           child: TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -113,11 +122,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Senha',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -125,11 +134,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
           child: TextFormField(
             controller: passwordController,
             validator: _validarSenha,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -149,11 +158,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Seu nome',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -161,11 +170,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
           child: TextFormField(
             controller: nomeController,
             validator: _validarNome,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -185,11 +194,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'CPF',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -198,11 +207,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
             controller: cpfController,
             validator: _validarCPF,
             keyboardType: TextInputType.number,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -223,11 +232,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'CREFITO',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -236,11 +245,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
             controller: crefitoController,
             validator: _validarCREFITO,
             keyboardType: TextInputType.number,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -261,11 +270,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Gênero',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,
@@ -274,10 +283,10 @@ class _CadastroFisioState extends State<CadastroFisio> {
             child: DropdownButton(
                 alignment: Alignment.center,
                 items: const [
-                  DropdownMenuItem(child: Text("Feminino"), value: "Feminino"),
+                  DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
                   DropdownMenuItem(
-                      child: Text("Masculino"), value: "Masculino"),
-                  DropdownMenuItem(child: Text("Outro"), value: "Outro")
+                      value: "Masculino", child: Text("Masculino")),
+                  DropdownMenuItem(value: "Outro", child: Text("Outro"))
                 ],
                 value: _dropDownSexo,
                 onChanged: dropDownSexoCB,
@@ -285,8 +294,8 @@ class _CadastroFisioState extends State<CadastroFisio> {
                 iconEnabledColor: Colors.white,
                 isExpanded: true,
                 underline: Container(),
-                dropdownColor: Color(0xFF73AEF5),
-                style: TextStyle(
+                dropdownColor: const Color(0xFF73AEF5),
+                style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w600,
@@ -299,11 +308,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Celular',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -316,16 +325,17 @@ class _CadastroFisioState extends State<CadastroFisio> {
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.phone,
                 color: Colors.white,
               ),
-              hintText: 'Digite seu Celular',
+              hintText: '62999881212',
               hintStyle: kHintTextStyle,
             ),
+            maxLength: 11,
           ),
         ),
       ],
@@ -374,6 +384,12 @@ class _CadastroFisioState extends State<CadastroFisio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cadastro Fisioterapeuta'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: const [],
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -383,7 +399,7 @@ class _CadastroFisioState extends State<CadastroFisio> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -397,11 +413,11 @@ class _CadastroFisioState extends State<CadastroFisio> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
@@ -410,42 +426,30 @@ class _CadastroFisioState extends State<CadastroFisio> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          'Cadastrar',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'OpenSans',
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
                         _buildNomeTF(),
-                        SizedBox(height: 30.0),
+                        const SizedBox(height: 30.0),
                         _buildEmailTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildCpfTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildClelularTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildCrefitoTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildSexoTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildPasswordTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildCadastrarBtn(),
@@ -467,18 +471,17 @@ class _CadastroFisioState extends State<CadastroFisio> {
         barrierDismissible: false,
         builder: (context) => const Center(child: CircularProgressIndicator()));
     try {
-      var userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim())
-          .then(
-        (value) {
-          _cadastrarFisio(value.user!.uid);
-        },
-      );
+          .then((value) async {
+        await _cadastrarFisio(value.user!.uid);
+        // Agora vamos direcionar o usuário para a tela de login_screen para realizar o login na plataforma
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('Senha inserida muito fraca! Tente outra mais forte. $e');
+        developer.log('Senha inserida muito fraca! Tente outra mais forte. $e');
         _erroDialog(context, "Senha muito fraca.");
       } else if (e.code == 'email-already-in-use') {
         print(
@@ -488,8 +491,6 @@ class _CadastroFisioState extends State<CadastroFisio> {
         print("Por favor, insira um endereço de email válido");
         _erroDialog(context, "E-mail inválido.");
       }
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -497,16 +498,16 @@ class _CadastroFisioState extends State<CadastroFisio> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
-    } on FirebaseAuthException catch (e) {
-      print(e);
+      //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    } on FirebaseAuthException {
+      _erroDialog(context,
+          "Erro ao realizar o login após criar cadastro. Favor tentar realizar o login novamente com o cadastro criado.");
     }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   String? _validarCampos() {

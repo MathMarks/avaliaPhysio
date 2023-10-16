@@ -23,6 +23,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
   final cpfController = TextEditingController();
   final _localDb = Localstore.instance;
 
+  @override
   void initState() {
     nomeController.text = "";
     cpfController.text = "";
@@ -34,22 +35,22 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Nome do Paciente',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
             controller: nomeController,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -69,11 +70,11 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'CPF',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -81,11 +82,11 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
           child: TextFormField(
             controller: cpfController,
             keyboardType: TextInputType.number,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -113,7 +114,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -127,11 +128,11 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
@@ -141,18 +142,18 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Resultado: ' + widget.resultadoAval.toString(),
-                          style: TextStyle(
+                          'Resultado: ${widget.resultadoAval}',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontFamily: 'OpenSans',
                             fontSize: 30.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
-                        Text(
+                        const Text(
                           'Identifique o Paciente',
                           style: TextStyle(
                             color: Colors.white,
@@ -161,13 +162,13 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildNomeTF(),
-                        SizedBox(height: 30.0),
+                        const SizedBox(height: 30.0),
                         _buildCpfTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         Column(
@@ -213,7 +214,7 @@ class _avaliacaoRapidaState extends State<avaliacaoRapida> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
+                                          builder: (context) => const LoginScreen()));
                                 },
                                 child: const Text("Armazenar Avaliação")),
                           ],

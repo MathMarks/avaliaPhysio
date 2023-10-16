@@ -23,7 +23,7 @@ class _ChangeProfileInfoState extends State<ChangeProfileInfo> {
         title: const Text('Perfil'),
         centerTitle: true,
         backgroundColor: Colors.blue,
-        actions: [],
+        actions: const [],
       ),
       body: Container(
         width: double.infinity,

@@ -10,7 +10,7 @@ class Mrc {
     this.resultado = resultado;
     this.fisioID = fisioID;
     this.obsAvaliacao = obsAvaliacao;
-    this.data = DateTime.now();
+    data = DateTime.now();
   }
 
   String getFisioID() {

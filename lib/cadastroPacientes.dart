@@ -117,11 +117,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Nome do Paciente',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -129,11 +129,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
           child: TextFormField(
             controller: nomeController,
             validator: _validarNome,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -153,11 +153,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'CPF',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -166,11 +166,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
             controller: cpfController,
             validator: _validarCPF,
             keyboardType: TextInputType.number,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -180,6 +180,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               hintText: 'Digite o CPF do paciente',
               hintStyle: kHintTextStyle,
             ),
+            maxLength: 11,
           ),
         ),
       ],
@@ -190,11 +191,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'SUS',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -203,11 +204,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
             controller: susController,
             validator: _validarSUS,
             keyboardType: TextInputType.number,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -217,6 +218,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               hintText: 'Digite o número SUS',
               hintStyle: kHintTextStyle,
             ),
+            maxLength: 4,
           ),
         ),
       ],
@@ -227,11 +229,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Gênero',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
             alignment: Alignment.centerLeft,
             decoration: kBoxDecorationStyle,
@@ -240,10 +242,10 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
             child: DropdownButton(
                 alignment: Alignment.center,
                 items: const [
-                  DropdownMenuItem(child: Text("Feminino"), value: "Feminino"),
+                  DropdownMenuItem(value: "Feminino", child: Text("Feminino")),
                   DropdownMenuItem(
-                      child: Text("Masculino"), value: "Masculino"),
-                  DropdownMenuItem(child: Text("Outro"), value: "Outro")
+                      value: "Masculino", child: Text("Masculino")),
+                  DropdownMenuItem(value: "Outro", child: Text("Outro"))
                 ],
                 value: _dropDownSexo,
                 onChanged: dropDownSexoCB,
@@ -251,8 +253,8 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                 iconEnabledColor: Colors.white,
                 isExpanded: true,
                 underline: Container(),
-                dropdownColor: Color(0xFF73AEF5),
-                style: TextStyle(
+                dropdownColor: const Color(0xFF73AEF5),
+                style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w600,
@@ -265,11 +267,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Celular',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -278,11 +280,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
             controller: celularController,
             validator: _validarCelular,
             keyboardType: TextInputType.phone,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -292,6 +294,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               hintText: 'Digite o celular do Paciente',
               hintStyle: kHintTextStyle,
             ),
+            maxLength: 11,
           ),
         ),
       ],
@@ -302,11 +305,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Celular Emergencial',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -315,11 +318,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
             controller: celularEmergencialController,
             validator: _validarCelular,
             keyboardType: TextInputType.phone,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -329,6 +332,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               hintText: 'Digite um celular para emergência',
               hintStyle: kHintTextStyle,
             ),
+            maxLength: 11,
           ),
         ),
       ],
@@ -339,22 +343,22 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Data de Nascimento - 01/01/1980',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
               controller: dataNascController,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'OpenSans',
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14.0),
                 prefixIcon: Icon(
@@ -373,22 +377,22 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Data de Entrada na UTI - 01/01/2023',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
               controller: dataEntradaUti,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'OpenSans',
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14.0),
                 prefixIcon: Icon(
@@ -410,6 +414,12 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cadastrar Paciente'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: const [],
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -419,7 +429,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -433,11 +443,11 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
@@ -446,7 +456,7 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Cadastrar Paciente',
                           style: TextStyle(
                             color: Colors.white,
@@ -455,37 +465,37 @@ class _CadastroPacienteState extends State<CadastroPaciente> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildNomeTF(),
-                        SizedBox(height: 30.0),
+                        const SizedBox(height: 30.0),
                         _buildCpfTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildDataNascTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildDataEntradaUti(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildClelularTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildContatoEmergencialTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildSusTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildSexoTF(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         _buildCadastrarBtn(),

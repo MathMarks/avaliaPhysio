@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:projeto_tcc_2/avaliacoes/avalNaoSalvas.dart';
-import 'package:projeto_tcc_2/relatorios/graphs/graphMRC.dart';
 import 'package:projeto_tcc_2/relatorios/pdf_manip.dart';
-import 'dart:io';
 import 'package:to_csv/to_csv.dart' as exportCSV;
 import 'package:projeto_tcc_2/relatorios/graphs/graphMRC2.dart' as w;
 
@@ -31,7 +28,7 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text("MRC's Realizados"),
+            title: const Text("MRC's Realizados"),
             centerTitle: true,
             actions: <Widget>[
               PopupMenuButton(itemBuilder: (BuildContext bc) {
@@ -216,16 +213,16 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
                   output,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black54,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Resultado: ' + avaliacoes['resultado'].toString(),
+                  'Resultado: ${avaliacoes['resultado']}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black54,
                       fontSize: 12,
                       fontWeight: FontWeight.bold),

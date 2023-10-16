@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:projeto_tcc_2/relatorios/relatorioMRC.dart';
 
 class ProfilePaciente extends StatefulWidget {
@@ -77,12 +75,12 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
           const SizedBox(height: 8),
           Text(
             '${widget.data['nome']}',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
             "${widget.data['cpf']}",
-            style: TextStyle(fontSize: 20, color: Colors.black54),
+            style: const TextStyle(fontSize: 20, color: Colors.black54),
           ),
           const SizedBox(height: 16),
           const Divider(),

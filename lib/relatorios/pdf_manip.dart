@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -85,8 +84,8 @@ class PdfManip {
   static Future<List<List<dynamic>>> createDataList(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> data) async {
     var row = [];
-    var nomeFisioSnap;
-    var date;
+    DocumentSnapshot<Map<String, dynamic>> nomeFisioSnap;
+    String date;
     List<List<dynamic>> resultado = [];
     await Future.forEach(data, (element) async {
       row.add(element['tipo']);

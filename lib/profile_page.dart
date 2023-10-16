@@ -2,7 +2,6 @@ import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_tcc_2/buscaPacientes.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/firebaseManipulation/userInfo.dart';
 import 'package:projeto_tcc_2/buscaPacientesFisio.dart';
 import 'package:projeto_tcc_2/cadastroPacientes.dart';
@@ -10,7 +9,6 @@ import 'package:projeto_tcc_2/login_screen.dart';
 import 'package:localstore/localstore.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
 import 'package:projeto_tcc_2/change_profile_info.dart';
-import 'dart:developer' as developer;
 
 class Profile extends StatefulWidget {
   final String? msgPopUp;
@@ -76,7 +74,7 @@ class _ProfileState extends State<Profile> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => LoginScreen()));
+                        builder: (BuildContext context) => const LoginScreen()));
               },
             )
           ],
@@ -124,7 +122,7 @@ class _ProfileState extends State<Profile> {
                               height: 10.0,
                             ),
                             Padding(
-                              padding: EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -204,12 +202,12 @@ class _ProfileState extends State<Profile> {
                     color: Colors.grey[200],
                     child: Center(
                         child: Card(
-                            margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-                            child: Container(
+                            margin: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                            child: SizedBox(
                                 width: 310.0,
                                 height: 350,
                                 child: Padding(
-                                  padding: EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(10.0),
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
@@ -333,7 +331,7 @@ class _ProfileState extends State<Profile> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            CadastroPaciente()));
+                                                            const CadastroPaciente()));
                                               },
                                               child: Column(
                                                 crossAxisAlignment:
@@ -366,7 +364,7 @@ class _ProfileState extends State<Profile> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ChangeProfileInfo()))
+                                                        const ChangeProfileInfo()))
                                           },
                                           child: Row(
                                             mainAxisAlignment:
@@ -417,7 +415,7 @@ class _ProfileState extends State<Profile> {
       );
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
 
     return const Scaffold();

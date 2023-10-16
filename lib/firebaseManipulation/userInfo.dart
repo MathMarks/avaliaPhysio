@@ -1,12 +1,10 @@
-import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as dev;
 
 class GetUserName extends StatelessWidget {
   final String documentID;
 
-  GetUserName({required this.documentID});
+  const GetUserName({super.key, required this.documentID});
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +30,12 @@ class GetUserName extends StatelessWidget {
           print("Data value 2:  ");
           print(data); */
           return Text('${snapshot.data!["nome"]}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
               ));
         }
-        return Text('Carregando Nome...',
+        return const Text('Carregando Nome...',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
@@ -50,7 +48,7 @@ class GetUserName extends StatelessWidget {
 class GetUserEmail extends StatelessWidget {
   final String documentID;
 
-  GetUserEmail({required this.documentID});
+  const GetUserEmail({super.key, required this.documentID});
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +65,12 @@ class GetUserEmail extends StatelessWidget {
           // print(snapshot.data!["email"]);
           return Text(
               '${snapshot.data!["email"]}', //Cargo do profissional(Fisioterapeuta Intensivo, enfermeiro(a) etc)
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
               ));
         }
-        return Text('Carregando email',
+        return const Text('Carregando email',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
@@ -85,7 +83,7 @@ class GetUserEmail extends StatelessWidget {
 class GetUserCrefito extends StatelessWidget {
   final String documentID;
 
-  const GetUserCrefito({required this.documentID});
+  const GetUserCrefito({super.key, required this.documentID});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +118,7 @@ class GetUserCrefito extends StatelessWidget {
 class GetPacientsNum extends StatelessWidget {
   final String documentID;
 
-  const GetPacientsNum({required this.documentID});
+  const GetPacientsNum({super.key, required this.documentID});
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +151,7 @@ class GetPacientsNum extends StatelessWidget {
 class GetPacientsTotal extends StatelessWidget {
   final String documentID;
 
-  const GetPacientsTotal({required this.documentID});
+  const GetPacientsTotal({super.key, required this.documentID});
 
   @override
   Widget build(BuildContext context) {

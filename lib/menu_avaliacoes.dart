@@ -17,14 +17,21 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
         textStyle: const TextStyle(fontSize: 18));
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Avaliações'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: const [],
+      ),
       body: Stack(
         children: <Widget>[
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -38,11 +45,11 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: double.infinity,
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
                 horizontal: 40.0,
                 vertical: 120.0,
               ),
@@ -50,7 +57,7 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Avaliações Funcionais Disponíveis',
                       style: TextStyle(
                         color: Colors.white,
@@ -60,7 +67,7 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 30.0),
+                    const SizedBox(height: 30.0),
                     Wrap(
                       spacing: 20,
                       runSpacing: 15,
@@ -72,21 +79,21 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          AvaliacaoMRCHorizontal()));
+                                          const AvaliacaoMRCHorizontal()));
                             },
-                            child: Text("MRC")),
+                            child: const Text("MRC")),
                         TextButton(
                             style: _styleBotaoAvaliacao(),
                             onPressed: () {},
-                            child: Text("Dinamometria")),
+                            child: const Text("Dinamometria")),
                         TextButton(
                             style: _styleBotaoAvaliacao(),
                             onPressed: () {},
-                            child: Text("")),
+                            child: const Text("")),
                         TextButton(
                             style: _styleBotaoAvaliacao(),
                             onPressed: () {},
-                            child: Text("")),
+                            child: const Text("")),
                       ],
                     ),
                   ],

@@ -25,7 +25,7 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
                 child: SizedBox(
                   width: 250,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         hintText: 'Nome do Paciente...'),
                     onChanged: (val) {
@@ -46,7 +46,7 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
                 },
                 icon: const Icon(Icons.add),
                 style:
-                    IconButton.styleFrom(padding: EdgeInsets.only(right: 10.0)),
+                    IconButton.styleFrom(padding: const EdgeInsets.only(right: 10.0)),
               )
             ],
           ),
@@ -56,7 +56,7 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
               FirebaseFirestore.instance.collection('pacientes').snapshots(),
           builder: (context, snapshots) {
             return (snapshots.connectionState == ConnectionState.waiting)
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
@@ -90,16 +90,16 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
             data['nome'].toString(),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black54,
                 fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            'CPF: ' + data['cpf'].toString(),
+            'CPF: ${data['cpf']}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black54,
                 fontSize: 12,
                 fontWeight: FontWeight.bold),

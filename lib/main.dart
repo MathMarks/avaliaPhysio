@@ -11,12 +11,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(Myapp());
+  runApp(const Myapp());
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class Myapp extends StatelessWidget {
+  const Myapp({super.key});
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         navigatorKey: navigatorKey,
@@ -31,9 +33,10 @@ class Myapp extends StatelessWidget {
                     child: Text(
                         'Ops, algo de errado aconteceu com o Login, por favor, tente novamente.'));
               } else if (snapshot.hasData) {
+                navigatorKey.currentState!.popUntil((route) => route.isFirst);
                 return const Profile();
               } else {
-                return LoginScreen();
+                return const LoginScreen();
               }
             },
           ),
@@ -45,8 +48,8 @@ class Myapp extends StatelessWidget {
           Locale('pt', 'BR'),
         ],
         routes: {
-          '/profile': (context) => Profile(),
-          '/login': (context) => LoginScreen(),
+          '/profile': (context) => const Profile(),
+          '/login': (context) => const LoginScreen(),
           '/profilePaciente': (context) => const ProfilePaciente(data: ""),
         },
       );

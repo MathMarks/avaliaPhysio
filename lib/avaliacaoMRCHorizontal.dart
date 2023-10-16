@@ -7,6 +7,8 @@ import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:projeto_tcc_2/avaliacaoRapida.dart';
 
 class AvaliacaoMRCHorizontal extends StatefulWidget {
+  const AvaliacaoMRCHorizontal({super.key});
+
   @override
   _AvaliacaoMRCHorizontalState createState() => _AvaliacaoMRCHorizontalState();
 }
@@ -41,20 +43,20 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
         appBar: AppBar(
           actions: [
             Padding(
-                padding: EdgeInsets.only(right: 30),
+                padding: const EdgeInsets.only(right: 30),
                 child: GestureDetector(
                     onTap: () {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Ajuda Sobre MRC'),
-                            content: const Text(
+                        builder: (BuildContext context) => const AlertDialog(
+                            title: Text('Ajuda Sobre MRC'),
+                            content: Text(
                                 'Em breve será implementado um breve tutorial/cola para ajudar a ter uma melhor noção de como realizar o MRC.')),
                       );
                     },
-                    child: Icon(Icons.question_mark))),
+                    child: const Icon(Icons.question_mark))),
           ],
-          title: Text('MRC Scale'),
+          title: const Text('MRC Scale'),
           backgroundColor: Colors.black12,
         ),
         body: Form(
@@ -90,7 +92,7 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
               ),
               TextButton(
                 style: TextButton.styleFrom(
-                    primary: Colors.black, backgroundColor: Colors.white),
+                    foregroundColor: Colors.black, backgroundColor: Colors.white),
                 onPressed: () {
                   valorFinal = ombrosValues[0] +
                       ombrosValues[1] +
@@ -185,9 +187,9 @@ class _AvaliacaoMRCHorizontalState extends State<AvaliacaoMRCHorizontal> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Profile()));
+                                    builder: (context) => const Profile()));
                           },
-                          child: Text("Cancelar Avaliação")),
+                          child: const Text("Cancelar Avaliação")),
                     ],
                   )
                 ],

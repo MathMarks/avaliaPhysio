@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projeto_tcc_2/antigo/inputRow.dart';
 
 class Avaliacaofuncional extends StatefulWidget {
+  const Avaliacaofuncional({super.key});
+
   @override
   _AvaliacaofuncionalState createState() => _AvaliacaofuncionalState();
 }
@@ -30,7 +32,7 @@ class _AvaliacaofuncionalState extends State<Avaliacaofuncional> {
     return Scaffold(
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
-        title: Text('MRC Scale'),
+        title: const Text('MRC Scale'),
         backgroundColor: Colors.black12,
       ),
       body: Form(
@@ -77,9 +79,9 @@ class _AvaliacaofuncionalState extends State<Avaliacaofuncional> {
                   valorFinal = valorFinal;
                 });
               },
-              child: Text("Calcular"),
+              child: const Text("Calcular"),
             ),
-            Text("Resultado Preliminar: " + valorFinal.toString(),
+            Text("Resultado Preliminar: $valorFinal",
                 textAlign: TextAlign.center),
             Text(fraseAlerta, textAlign: TextAlign.center),
             TextButton(
@@ -87,13 +89,13 @@ class _AvaliacaofuncionalState extends State<Avaliacaofuncional> {
                   showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
+                        return const AlertDialog(
                           content: Text(
                               "Direcionando para lista de pacientes sob cuidados."),
                         );
                       });
                 },
-                child: Text("Salvar Avaliação"))
+                child: const Text("Salvar Avaliação"))
           ],
         ),
       ),

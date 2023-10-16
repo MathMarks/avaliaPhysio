@@ -1,24 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto_tcc_2/avaliacaoMRCHorizontal.dart';
 import 'package:projeto_tcc_2/constants.dart';
 import 'package:projeto_tcc_2/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_tcc_2/cadastroFisio.dart';
-import 'package:intl/intl.dart';
 import 'package:projeto_tcc_2/menu_avaliacoes.dart';
+
 import 'dart:developer' as developer;
 
 class LoginScreen extends StatefulWidget {
+  final String? infoMessage;
+  const LoginScreen({Key? key, this.infoMessage}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _rememberMe = false;
+  final bool _rememberMe = false;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    developer.log(widget.infoMessage.toString());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.infoMessage != null) {
+        await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: const Text("Aviso"),
+                  content: Text("${widget.infoMessage}"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -31,11 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'E-mail',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -43,11 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -67,11 +93,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Senha',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -79,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             controller: passwordController,
             obscureText: true,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -103,9 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton(
-        style: TextButton.styleFrom(padding: EdgeInsets.only(right: 0.0)),
+        style: TextButton.styleFrom(padding: const EdgeInsets.only(right: 0.0)),
         onPressed: () => print('Apertou esqueceu senha'),
-        child: Text(
+        child: const Text(
           'Esqueceu sua senha?',
           style: kLabelStyle,
         ),
@@ -115,13 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
         style: TextButton.styleFrom(
           backgroundColor: Colors.white,
           elevation: 5.0,
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -132,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
           /* Navigator.push(
               context, MaterialPageRoute(builder: (context) => Profile())); */
         },
-        child: Text(
+        child: const Text(
           'Entrar',
           style: TextStyle(
             color: Color(0xFF527DAA),
@@ -149,11 +175,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CadastroFisio()))
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CadastroFisio()))
       },
       child: RichText(
-        text: TextSpan(
+        text: const TextSpan(
           children: [
             TextSpan(
               text: 'Não possui uma conta? ',
@@ -185,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
         style: TextButton.styleFrom(
           backgroundColor: Colors.green,
           elevation: 5.0,
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -220,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -234,18 +260,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Entrar',
                         style: TextStyle(
                           color: Colors.white,
@@ -254,15 +280,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 30.0),
+                      const SizedBox(height: 30.0),
                       _buildEmailTF(),
-                      SizedBox(height: 30.0),
+                      const SizedBox(height: 30.0),
                       _buildPasswordTF(),
                       // _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
                       _buildSignupBtn(),
                       const SizedBox(height: 10),
-                      Divider(),
+                      const Divider(),
                       const SizedBox(height: 18),
                       _buildAvaliacaoRapidaBtn(),
                     ],
@@ -280,16 +306,53 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
-      print(e);
+      String errorMessage =
+          "Ocorreu um erro inesperado. Tente novamente mais tarde.";
+      if (e.code == 'user-not-found') {
+        errorMessage = "Conta não encontrada. Por favor, realize seu cadastro.";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Senha errada, tente novamente.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage =
+            "O formato do seu e-mail está errado. Por favor, verifique e tente novamente.";
+      }
+      // Show an error popup with the appropriate error message
+      _showErrorAlertDialog(errorMessage, context);
     }
+    // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
 
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  void _showErrorAlertDialog(String msg, BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Tentar novamente"),
+      onPressed: () {
+        navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Problema ao efetuar o Login"),
+      content: Text(msg),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
