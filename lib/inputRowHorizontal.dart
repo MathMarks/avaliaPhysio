@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
 class InputRowHorizontal extends StatelessWidget {
-  var parteDoCopro = "";
+  final parteDoCopro = "";
 
   List<int> values;
 
-  InputRowHorizontal(this.values, this.parteDoCopro, {super.key});
+  InputRowHorizontal(this.values, parteDoCopro, {super.key});
 
   @override
   Widget build(BuildContext context) {

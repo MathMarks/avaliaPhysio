@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context, MaterialPageRoute(builder: (context) => Profile())); */
         },
         child: const Text(
-          'Entrar',
+          'Acessar',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -305,13 +305,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Future logar() async {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
         builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim())
+          .then((value) => setState(() {}));
     } on FirebaseAuthException catch (e) {
       String errorMessage =
           "Ocorreu um erro inesperado. Tente novamente mais tarde.";
