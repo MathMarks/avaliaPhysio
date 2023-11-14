@@ -111,26 +111,54 @@ class _ProfilePacienteState extends State<ProfilePaciente> {
                 ),
               ),
             ),
-            Center(
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
-                      padding: const EdgeInsets.only(
-                          top: 30, bottom: 30, left: 60, right: 60),
-                      backgroundColor: Colors.blue.shade400),
-                  onPressed: () {
-                    //print(widget.data['cpf']);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                RelatorioMRC(cpf: widget.data['cpf'])));
-                  },
-                  child: const Text("Relatório MRC")),
+            Column(
+              children: [
+                Center(
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                          padding: const EdgeInsets.only(
+                              top: 30, bottom: 30, left: 60, right: 60),
+                          backgroundColor: Colors.blue.shade400),
+                      onPressed: () {
+                        //print(widget.data['cpf']);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    RelatorioMRC(cpf: widget.data['cpf'])));
+                      },
+                      child: const Text("Relatório MRC")),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                          padding: const EdgeInsets.only(
+                              top: 30, bottom: 30, left: 60, right: 60),
+                          backgroundColor: Colors.blue.shade400),
+                      onPressed: () {
+                        //print(widget.data['cpf']);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    RelatorioMRC(cpf: widget.data['cpf'])));
+                      },
+                      child: const Text("Relatório Dinamometrias")),
+                ),
+              ],
             )
           ],
         ),

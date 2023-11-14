@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_tcc_2/avaliacaoMRCHorizontal.dart';
+import 'package:projeto_tcc_2/dinamometria.dart';
 
 class MenuAvaliacoes extends StatefulWidget {
   const MenuAvaliacoes({super.key});
@@ -84,8 +85,14 @@ class _MenuAvaliacoesState extends State<MenuAvaliacoes> {
                             child: const Text("MRC")),
                         TextButton(
                             style: _styleBotaoAvaliacao(),
-                            onPressed: () {},
-                            child: const Text("Dinamometria")),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Dinamometria()));
+                            },
+                            child: const Text("Dinamometria Manual")),
                         TextButton(
                             style: _styleBotaoAvaliacao(),
                             onPressed: () {},

@@ -219,7 +219,7 @@ class _RelatorioMRCState extends State<RelatorioMRC> {
                       fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Resultado: ${avaliacoes['resultado']}',
+                  'Resultado: ${avaliacoes['resultado']} | Tipo: ${avaliacoes['tipo']}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

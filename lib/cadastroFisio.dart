@@ -25,6 +25,28 @@ class _CadastroFisioState extends State<CadastroFisio> {
   final celularController = TextEditingController();
   var _dropDownSexo = "Feminino";
 
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                title: const Text("Aviso"),
+                content: const Text(
+                    "Essa versão é apenas uma versão inicial para testes. Não há necessidade de fornecer dados reais ao realizar o cadastro. Todos os dados da ferramenta, incluindo cadastros de profissionais e pacientes, são excluídos semanalmente."),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ));
+    });
+  }
+
   @override
   void dispose() {
     emailController.dispose();

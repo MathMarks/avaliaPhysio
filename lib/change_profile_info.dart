@@ -16,6 +16,28 @@ class _ChangeProfileInfoState extends State<ChangeProfileInfo> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                title: const Text("Aviso"),
+                content: const Text(
+                    "A modificação de dados do perfil foi desabilitada nessa versão de testes. Todos os dados da ferramenta, incluindo cadastros de profissionais e pacientes, são excluídos semanalmente. Caso exista urgência para realizar a exclusão ou modificação da sua conta, basta enviar um e-mail para: matheusmarques.j@gmail.com com a solicitação. ^^"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

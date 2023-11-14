@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto_tcc_2/profile_paciente.dart';
 import 'dart:developer' as developer;
-import 'package:projeto_tcc_2/avaliacoes/mrc.dart';
 import 'package:projeto_tcc_2/cadastroPacientes.dart';
 
 class BuscaPacientes extends StatefulWidget {
-  final Mrc aval;
+  final dynamic aval;
   const BuscaPacientes({Key? key, required this.aval}) : super(key: key);
 
   @override
@@ -45,8 +44,8 @@ class _BuscaPacientesState extends State<BuscaPacientes> {
                               CadastroPaciente(avaliacaoExterna: widget.aval)));
                 },
                 icon: const Icon(Icons.add),
-                style:
-                    IconButton.styleFrom(padding: const EdgeInsets.only(right: 10.0)),
+                style: IconButton.styleFrom(
+                    padding: const EdgeInsets.only(right: 10.0)),
               )
             ],
           ),
